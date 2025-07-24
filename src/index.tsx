@@ -6,20 +6,23 @@ import App from "./app/App";
 import reportWebVitals from "./reportWebVitals";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
-import theme from "./app/material 2/MaterialTheme";
+import theme from "./app/MaterialTheme/MaterialTheme";
+import { BrowserRouter as Router } from "react-router-dom";
 import "./css/index.css";
 
 
-ReactDOM.render(
+ReactDOM.render( //virutal dom
   <React.StrictMode>
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <App />
+        <Router>
+          <App />
+        </Router>
       </ThemeProvider>
     </Provider>
   </React.StrictMode>,
-  document.getElementById("root")
+  document.getElementById("root") // real dom
 );
 
 // If you want to start measuring performance in your app, pass a function
