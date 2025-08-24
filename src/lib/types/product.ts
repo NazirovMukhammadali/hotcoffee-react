@@ -4,7 +4,7 @@ export interface Product {
     _id: string;
     productStatus: ProductStatus;
     productCollection: ProductCollection;
-    productNme: string;
+    productName: string;
     productPrice: number;
     productLeftCount: number;
     productSize: ProductSize;
