@@ -19,6 +19,7 @@ import ProductService from "../../services/ProductService";
 import { ProductCollection } from "../../../lib/enums/product.enum";
 import { serverApi } from "../../../lib/config";
 import { useHistory } from "react-router-dom";
+import { CartItem } from "../../../lib/types/search";
 
 /** REDUX SLICE & SELECTOR */
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -28,7 +29,12 @@ const productsRetriever = createSelector(retrieveProducts, (products) => ({
     products,
 }));
 
-export default function Products() {
+interface ProducteProps {
+    onAdd: (item: CartItem) => void;
+}
+
+export default function Products(props: ProducteProps) {
+    const { onAdd } = props;
     const { setProducts } = actionDispatch(useDispatch());
     const { products } = useSelector(productsRetriever);
     const [productSearch, setProductSearch] = useState<ProductInquiry>({
@@ -77,12 +83,12 @@ export default function Products() {
 
     const paginationHandler = (e: ChangeEvent<any>, value: number) => {
         productSearch.page = value;
-        setProductSearch({...productSearch});
+        setProductSearch({ ...productSearch });
     }
 
-      const chooseDishHandler = (id: string) => {
+    const chooseDishHandler = (id: string) => {
         history.push(`/products/${id}`);
-  };
+    };
 
     return (
         <div className={"products"}>
@@ -102,8 +108,8 @@ export default function Products() {
                                     placeholder="Type here"
                                     value={searchText}
                                     onChange={(e) => setSearchText(e.target.value)}
-                                    onKeyDown={(e)=> {
-                                     if (e.key === "Enter") searchProductHandler();
+                                    onKeyDown={(e) => {
+                                        if (e.key === "Enter") searchProductHandler();
                                     }}
                                 />
                                 <button
@@ -210,14 +216,26 @@ export default function Products() {
                                             : product.productSize + " size";
                                     return (
                                         <Stack key={product._id} className="product-card"
-                                        onClick={()=> chooseDishHandler(product._id)}
+                                            onClick={() => chooseDishHandler(product._id)}
                                         >
                                             <Stack
                                                 className="product-img"
                                                 sx={{ backgroundImage: `url(${imagePath})` }}
                                             >
                                                 <div className="product-sale">{sizeVolume}</div>
-                                                <Button className="shop-btn">
+                                                <Button
+                                                    className="shop-btn"
+                                                    onClick={(e) => {
+                                                        onAdd({
+                                                            _id: product._id,
+                                                            quantity: 1,
+                                                            name: product.productName,
+                                                            price: product.productPrice,
+                                                            image: product.productImages[0],
+                                                        });
+                                                        e.stopPropagation();
+                                                    }}
+                                                >
                                                     <img
                                                         src="/icons/shopping-cart.svg"
                                                         style={{ display: "flex" }}
@@ -253,8 +271,8 @@ export default function Products() {
                         <Pagination
                             count={
                                 products.length !== 0
-                                  ? productSearch.page + 1
-                                  : productSearch.page}
+                                    ? productSearch.page + 1
+                                    : productSearch.page}
                             page={productSearch.page}
                             renderItem={(item) => (
                                 <PaginationItem

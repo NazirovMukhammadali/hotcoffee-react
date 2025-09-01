@@ -22,6 +22,7 @@ import ProductService from "../../services/ProductService";
 import MemberService from "../../services/MemberService";
 import { Member } from "../../../lib/types/member";
 import { serverApi } from "../../../lib/config";
+import { CartItem } from "../../../lib/types/search";
 
 const actionDispatch = (dispatch: Dispatch) => ({
   setChosenProduct: (data: Product) => dispatch(setChosenProduct(data)),
@@ -42,12 +43,16 @@ const restaurantRetriever = createSelector(
   })
 );
 
+interface ChosenProducteProps {
+  onAdd: (item: CartItem) => void;
+}
 
-export default function ChosenProduct() {
- const {setRestaurant, setChosenProduct} = actionDispatch(useDispatch());
+export default function ChosenProduct(props: ChosenProducteProps) {
+  const { onAdd } = props;
+  const { setRestaurant, setChosenProduct } = actionDispatch(useDispatch());
   const { productId } = useParams<{ productId: string }>();
-  const {restaurant} = useSelector(restaurantRetriever);
-    const {chosenProduct} = useSelector(chosenProductRetriever);
+  const { restaurant } = useSelector(restaurantRetriever);
+  const { chosenProduct } = useSelector(chosenProductRetriever);
 
   useEffect(() => {
     const product = new ProductService();
@@ -56,10 +61,10 @@ export default function ChosenProduct() {
       .then((data) => setChosenProduct(data))
       .catch((err) => console.log(err));
 
-          const member = new MemberService();
+    const member = new MemberService();
     member
       .getRestaurant()
-      .then((data) => 
+      .then((data) =>
         setRestaurant(data))
       .catch((err) =>
         console.log(err));
@@ -79,13 +84,13 @@ export default function ChosenProduct() {
             className="swiper-area"
           >
             {chosenProduct?.productImages.map((ele: string, index: number) => {
-              const imagePath= `${serverApi}/${ele}`;
-                return (
-                  <SwiperSlide key={index}>
-                    <img className="slider-image" src={imagePath} />
-                  </SwiperSlide>
-                );
-              }
+              const imagePath = `${serverApi}/${ele}`;
+              return (
+                <SwiperSlide key={index}>
+                  <img className="slider-image" src={imagePath} />
+                </SwiperSlide>
+              );
+            }
             )}
           </Swiper>
         </Stack>
@@ -105,8 +110,8 @@ export default function ChosenProduct() {
             </Box>
             <p className={"product-desc"}>
               {chosenProduct?.productDesc
-              ? chosenProduct?.productDesc
-            : "No Description"}
+                ? chosenProduct?.productDesc
+                : "No Description"}
             </p>
             <Divider height="1" width="100%" bg="#000000" />
             <div className={"product-price"}>
@@ -114,7 +119,19 @@ export default function ChosenProduct() {
               <span>${chosenProduct?.productPrice}</span>
             </div>
             <div className={"button-box"}>
-              <Button variant="contained">Add To Basket</Button>
+              <Button variant="contained"
+                onClick={(e) => {
+                  onAdd({
+                    _id: chosenProduct._id,
+                    quantity: 1,
+                    name: chosenProduct.productName,
+                    price: chosenProduct.productPrice,
+                    image: chosenProduct.productImages[0],
+                  });
+                  e.stopPropagation();
+                }}
+              >
+                Add To Basket</Button>
             </div>
           </Box>
         </Stack>
