@@ -66,7 +66,7 @@ class MemberService {
 
   public async logout(): Promise<void> {
     try {
-      const url = `${this.path}/member/logout`;
+      const url = this.path + "/member/logout";
       const result = await axios.post(url, {}, { withCredentials: true });
       console.log("logout result :", result);
       localStorage.removeItem("memberData");
