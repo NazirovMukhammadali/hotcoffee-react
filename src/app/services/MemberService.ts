@@ -75,7 +75,6 @@ class MemberService {
       throw err;
     }
   }
-
   public async updateMember(input: MemberUpdateInput): Promise<Member> {
     try {
       const formData = new FormData();
@@ -93,12 +92,13 @@ class MemberService {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log("updatedMember: ", result);
+      console.log("updateMember:", result);
+
       const member: Member = result.data;
       localStorage.setItem("memberData", JSON.stringify(member));
       return member;
     } catch (err) {
-      console.log("Error updateMember", err);
+      console.log("Error, updateMember:", err);
       throw err;
     }
   }

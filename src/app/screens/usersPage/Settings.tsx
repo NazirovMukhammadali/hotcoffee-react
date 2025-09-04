@@ -2,13 +2,15 @@ import { Box } from "@mui/material";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import Button from "@mui/material/Button";
 import { useGlobals } from "../../hooks/useGlobals";
-import { useState } from "react";
 import { MemberUpdateInput } from "../../../lib/types/member";
+import { useState } from "react";
 import { T } from "../../../lib/types/common";
+import {
+  sweetErrorHandling,
+  sweetTopSmallSuccessAlert,
+} from "../../../lib/sweetAlert";
 import { Messages, serverApi } from "../../../lib/config";
-import { sweetErrorHandling, sweetTopSmallSuccessAlert } from "../../../lib/sweetAlert";
 import MemberService from "../../services/MemberService";
-import { useHistory } from "react-router-dom";
 
 export function Settings() {
   const { authMember, setAuthMember } = useGlobals();
@@ -17,8 +19,6 @@ export function Settings() {
       ? `${serverApi}/${authMember.memberImage}`
       : "/icons/default-user.svg"
   );
-  const history = useHistory();
-  if (!authMember) history.push("/");
 
   const [memberUpdateInput, setMemberUpdateInput] = useState<MemberUpdateInput>(
     {
@@ -29,8 +29,8 @@ export function Settings() {
       memberImage: authMember?.memberImage,
     }
   );
+  /** Handler */
 
-  // HANDLERS
   const memberNickHandler = (e: T) => {
     memberUpdateInput.memberNick = e.target.value;
     setMemberUpdateInput({ ...memberUpdateInput });
@@ -39,7 +39,6 @@ export function Settings() {
     memberUpdateInput.memberPhone = e.target.value;
     setMemberUpdateInput({ ...memberUpdateInput });
   };
-
   const memberAddressHandler = (e: T) => {
     memberUpdateInput.memberAddress = e.target.value;
     setMemberUpdateInput({ ...memberUpdateInput });
@@ -49,10 +48,9 @@ export function Settings() {
     setMemberUpdateInput({ ...memberUpdateInput });
   };
 
-  const handleSaveButton = async () => {
+  const handleSubmitHandle = async () => {
     try {
       if (!authMember) throw new Error(Messages.error2);
-
       if (
         memberUpdateInput.memberNick === "" ||
         memberUpdateInput.memberPhone === "" ||
@@ -61,12 +59,10 @@ export function Settings() {
       ) {
         throw new Error(Messages.error3);
       }
-
       const member = new MemberService();
       const result = await member.updateMember(memberUpdateInput);
       setAuthMember(result);
-
-      await sweetTopSmallSuccessAlert("Modified successfully!", 700);
+      await sweetTopSmallSuccessAlert("Modified successifully!", 700);
     } catch (err) {
       console.log(err);
       sweetErrorHandling(err).then();
@@ -75,11 +71,9 @@ export function Settings() {
 
   const handleImageViewer = (e: T) => {
     const file = e.target.files[0];
-    console.log("error:", file);
-
-    const fileType = file.type;
-
-    const validateImageTypes = ["image/jpg", "image/jpeg", "image/png"];
+    console.log("file:", file);
+    const fileType = file.type,
+      validateImageTypes = ["image/jpg", "image/jpeg", "image/png"];
 
     if (!validateImageTypes.includes(fileType)) {
       sweetErrorHandling(Messages.error5).then();
@@ -100,9 +94,7 @@ export function Settings() {
           <span>Upload image</span>
           <p>JPG, JPEG, PNG formats only!</p>
           <div className={"up-del-box"}>
-            <Button component="label"
-              onChange={handleImageViewer}
-            >
+            <Button component="label" onChange={handleImageViewer}>
               <CloudDownloadIcon />
               <input type="file" hidden />
             </Button>
@@ -128,7 +120,9 @@ export function Settings() {
           <input
             className={"spec-input mb-phone"}
             type="text"
-            placeholder={authMember?.memberPhone ?? "no phone"}
+            placeholder={
+              authMember?.memberPhone ? authMember.memberAddress : "no phone"
+            }
             value={memberUpdateInput.memberPhone}
             name="memberPhone"
             onChange={memberPhoneHandler}
@@ -139,11 +133,7 @@ export function Settings() {
           <input
             className={"spec-input  mb-address"}
             type="text"
-            placeholder={
-              authMember?.memberAddress
-                ? authMember.memberAddress
-                : "no address"
-            }
+            placeholder={authMember?.memberAddress ?? "no address"}
             value={memberUpdateInput.memberAddress}
             name="memberAddress"
             onChange={memberAddressHandler}
@@ -156,9 +146,7 @@ export function Settings() {
           <textarea
             className={"spec-textarea mb-description"}
             placeholder={
-              authMember?.memberDesc
-                ? authMember.memberDesc
-                : "no description"
+              authMember?.memberDesc ? authMember.memberDesc : "no description"
             }
             value={memberUpdateInput.memberDesc}
             name="memberDesc"
@@ -167,9 +155,9 @@ export function Settings() {
         </div>
       </Box>
       <Box className={"save-box"}>
-        <Button variant={"contained"}
-          onClick={handleSaveButton}
-        >Save</Button>
+        <Button variant={"contained"} onClick={handleSubmitHandle}>
+          Save
+        </Button>
       </Box>
     </Box>
   );

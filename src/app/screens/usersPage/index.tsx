@@ -13,8 +13,8 @@ import "../../../css/userPage.css";
 export default function UserPage() {
   const history = useHistory();
   const { authMember } = useGlobals();
-
   if (!authMember) history.push("/");
+
   return (
     <div className={"user-page"}>
       <Container>
@@ -37,16 +37,21 @@ export default function UserPage() {
               >
                 <div className={"order-user-img"}>
                   <img
-                    src={authMember?.memberImage
-                      ? `${serverApi}/${authMember.memberImage}`
-                      : "/icons/default-user.svg"}
+                    src={
+                      authMember?.memberImage
+                        ? `${serverApi}/${authMember.memberImage}`
+                        : "/icons/default-user.svg"
+                    }
                     className={"order-user-avatar"}
                   />
                   <div className={"order-user-icon-box"}>
-                    <img src={
-                      authMember?.memberType === MemberType.RESTAURANT
-                        ? "/icons/restaurant.svg"
-                        : "/icons/user-badge.svg"} />
+                    <img
+                      src={
+                        authMember?.memberType === MemberType.RESTAURANT
+                          ? "/icons/restaurant.svg"
+                          : "/icons/user-badge.svg"
+                      }
+                    />
                   </div>
                 </div>
                 <span className={"order-user-name"}>
@@ -58,7 +63,7 @@ export default function UserPage() {
                 <span className={"order-user-prof"}>
                   {authMember?.memberAddress
                     ? authMember.memberAddress
-                    : "no address"}
+                    : "no adress"}
                 </span>
               </Box>
               <Box className={"user-media-box"}>

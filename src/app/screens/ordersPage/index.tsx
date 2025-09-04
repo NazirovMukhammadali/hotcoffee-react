@@ -14,9 +14,9 @@ import { OrderStatus } from "../../../lib/enums/order.enum";
 import OrderService from "../../services/OrderService";
 import { useGlobals } from "../../hooks/useGlobals";
 import { useHistory } from "react-router-dom";
-import "../../../css/order.css";
 import { serverApi } from "../../../lib/config";
 import { MemberType } from "../../../lib/enums/member.enum";
+import "../../../css/order.css";
 
 
 /** REDUX SLICE & SELECTOR */
@@ -134,7 +134,8 @@ export default function OrdersPage() {
                                 {authMember?.memberAddress
                                     ? authMember.memberAddress
                                     : "do not exist"
-                                }</p>
+                                }
+                            </p>
                         </Box>
                     </Box>
                     <Box className="payment-info-box">
