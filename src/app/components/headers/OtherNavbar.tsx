@@ -69,7 +69,7 @@ export default function OtherNavbar(props: OtherNavbarProps) {
                         {authMember ? (
                             <Box className={"hover-line"}>
                                 <NavLink to="/member-page" activeClassName={"underLine"}>
-                                    My Pages
+                                    My Page
                                 </NavLink>
                             </Box>
                         ) : null};
@@ -148,7 +148,6 @@ export default function OtherNavbar(props: OtherNavbarProps) {
                                 Logout
                             </MenuItem>
                         </Menu>
-
                     </Stack>
                 </Stack>
             </Container>

@@ -1,9 +1,8 @@
 import { useState, SyntheticEvent, useEffect } from "react";
-import { Box, Container, Input, Stack } from "@mui/material";
+import { Box, Container, Stack } from "@mui/material";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PausedOrders from "./PausedOrders";
 import ProcessOrders from "./ProcessOrders";
 import FinishedOrders from "./FinishedOrders";
@@ -11,9 +10,10 @@ import { useDispatch } from "react-redux";
 import { Dispatch } from "@reduxjs/toolkit";
 import { setPausedOrders, setProcessOrders, setFinishedOrder } from "./slice";
 import { Order, OrderInquery } from "../../../lib/types/order";
-import "../../../css/order.css";
 import { OrderStatus } from "../../../lib/enums/order.enum";
 import OrderService from "../../services/OrderService";
+import { useGlobals } from "../../hooks/useGlobals";
+import "../../../css/order.css";
 
 
 /** REDUX SLICE & SELECTOR */
@@ -24,7 +24,9 @@ const actionDispatch = (dispatch: Dispatch) => ({
 });
 
 export default function OrdersPage() {
-    const { setPausedOrders, setProcessOrders, setFinishedOrder } = actionDispatch(useDispatch());
+    const { setPausedOrders, setProcessOrders, setFinishedOrder } =
+        actionDispatch(useDispatch());
+    const { orderBuilder } = useGlobals();
     const [value, setValue] = useState("1");
     const [orderInquery, setOrderInquiry] = useState<OrderInquery>({
         page: 1,
@@ -46,7 +48,7 @@ export default function OrdersPage() {
         order.getMyOrders({ ...orderInquery, orderStatus: OrderStatus.FINISH })
             .then((data) => setFinishedOrder(data))
             .catch((err) => console.log(err));
-    }, [orderInquery]);
+    }, [orderInquery, orderBuilder]);
 
     // HANDLERS
     const handleChange = (e: SyntheticEvent, newValue: string) => {
@@ -79,8 +81,8 @@ export default function OrdersPage() {
                             </Box>
                         </Box>
                         <Stack className="order-main-content">
-                            <PausedOrders />
-                            <ProcessOrders />
+                            <PausedOrders setValue={setValue} />
+                            <ProcessOrders setValue={setValue} />
                             <FinishedOrders />
                         </Stack>
                     </TabContext>
@@ -95,11 +97,11 @@ export default function OrdersPage() {
                                     className="order-user-avatar"
                                 />
                                 {/* <div className="order-user-icon-box">
-                  <img
-                    src="/icons/user-badge.svg"
-                    className="order-user-prof-img"
-                  />
-                </div> */}
+                                    <img
+                                        src="/icons/user-badge.svg"
+                                        className="order-user-prof-img"
+                                    />
+                                </div> */}
                             </div>
                             <span className="order-user-name">Martin</span>
                             <span className="order-user-prof">Justin</span>
@@ -143,6 +145,6 @@ export default function OrdersPage() {
                     </Box>
                 </Stack>
             </Container>
-        </div>
+        </div >
     );
 }
