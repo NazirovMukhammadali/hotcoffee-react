@@ -97,6 +97,7 @@ export default function OtherNavbar(props: OtherNavbarProps) {
                             </Box>
                         ) : (
                             <img
+                                className="user-avatar"
                                 src={authMember?.memberImage
                                     ? `${serverApi}/${authMember?.memberImage}`
                                     : "/icons/default-user.svg"
