@@ -192,6 +192,7 @@
 .order-page .order-container .order-right .order-info-box .member-box .order-user-name {
     width: 76px;
     height: 37px;
+    margin-top: 14px;
     color: #08090d;
     font-family: "Commissioner";
     font-size: 28px;
@@ -203,6 +204,7 @@
 .order-page .order-container .order-right .order-info-box .member-box .order-user-prof {
     width: 53px;
     height: 37px;
+    margin-top: 4px;
     color: #a1a1a1;
     font-family: Commissioner;
     font-size: 20px;
@@ -350,6 +352,7 @@
 .order-page .order-container .order-right .order-info-box .member-box .order-user-name {
     width: 76px;
     height: 37px;
+    margin-top: 14px;
     color: #08090d;
     font-family: "Commissioner";
     font-size: 28px;
@@ -361,6 +364,7 @@
 .order-page .order-container .order-right .order-info-box .member-box .order-user-prof {
     width: 53px;
     height: 37px;
+    margin-top: 4px;
     color: #a1a1a1;
     font-family: Commissioner;
     font-size: 20px;

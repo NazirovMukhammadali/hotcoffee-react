@@ -15,7 +15,6 @@ import OrderService from "../../services/OrderService";
 import { useGlobals } from "../../hooks/useGlobals";
 import { useHistory } from "react-router-dom";
 import { serverApi } from "../../../lib/config";
-import { MemberType } from "../../../lib/enums/member.enum";
 import "../../../css/order.css";
 
 
@@ -105,15 +104,6 @@ export default function OrdersPage() {
                                     }
                                     className="order-user-avatar"
                                 />
-                                <div className="order-user-icon-box">
-                                    <img
-                                        src={authMember?.memberType === MemberType.RESTAURANT
-                                            ? "/icons/restaurant.svg"
-                                            : "/icons/user-badge.svg"
-                                        }
-                                        className="order-user-prof-img"
-                                    />
-                                </div>
                             </div>
                             <span className="order-user-name">
                                 {authMember?.memberNick}

@@ -7,7 +7,6 @@ import { Settings } from "./Settings";
 import { useHistory } from "react-router-dom";
 import { useGlobals } from "../../hooks/useGlobals";
 import { serverApi } from "../../../lib/config";
-import { MemberType } from "../../../lib/enums/member.enum";
 import "../../../css/userPage.css";
 
 export default function UserPage() {
@@ -44,15 +43,6 @@ export default function UserPage() {
                     }
                     className={"order-user-avatar"}
                   />
-                  <div className={"order-user-icon-box"}>
-                    <img
-                      src={
-                        authMember?.memberType === MemberType.RESTAURANT
-                          ? "/icons/restaurant.svg"
-                          : "/icons/user-badge.svg"
-                      }
-                    />
-                  </div>
                 </div>
                 <span className={"order-user-name"}>
                   {authMember?.memberNick}

@@ -9,6 +9,7 @@
 .home-navbar .navbar-container {
     margin-top: 55px;
     height: 642px;
+
 }
 
 .home-navbar .navbar-container .menu {
@@ -28,9 +29,8 @@
     max-width: 700px;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     align-items: center;
-    gap: 50px;
+    gap: 32px;
 }
 
 .home-navbar .navbar-container .menu .links .login-button {
@@ -50,15 +50,24 @@
 
 }
 
+.home-navbar .hover-line {
+    margin: 0;
+}
+
 .home-navbar .hover-line a {
     color: #f8f8ff;
     z-index: 100;
+    white-space: nowrap;
 }
 
 .home-navbar .underLine {
     display: block;
     content: "";
     border-bottom: solid 2px #d7b686;
+}
+
+.my_page {
+    background-color: #ae0000;
 }
 
 .home-navbar .hover-line:after {
@@ -194,9 +203,8 @@
     max-width: 700px;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     align-items: center;
-    gap: 50px;
+    gap: 32px;
 }
 
 .other-navbar .navbar-container .menu .links .login-button {
@@ -216,9 +224,14 @@
 
 }
 
+.other-navbar .hover-line {
+    margin: 0;
+}
+
 .other-navbar .hover-line a {
     color: #f8f8ff;
     z-index: 100;
+    white-space: nowrap;
 }
 
 .other-navbar .underLine {
