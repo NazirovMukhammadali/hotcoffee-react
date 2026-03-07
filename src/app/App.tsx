@@ -105,9 +105,5 @@ function App() {
   );
 }
 
-
 export default App;
-function setAuthMember(arg0: null) {
-  throw new Error('Function not implemented.');
-}
 

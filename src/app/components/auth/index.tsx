@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
-import { Fab, Stack, TextField } from "@mui/material";
+import { Box, Fab, Stack, TextField } from "@mui/material";
 import styled from "styled-components";
 import LoginIcon from "@mui/icons-material/Login";
 import { T } from "../../../lib/types/common";
@@ -12,6 +12,7 @@ import { LoginInput, MemberInput } from "../../../lib/types/member";
 import MemberService from "../../services/MemberService";
 import { sweetErrorHandling } from "../../../lib/sweetAlert";
 import { useGlobals } from "../../hooks/useGlobals";
+import "../../../css/auth.css";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -20,20 +21,14 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
   },
   paper: {
-    backgroundColor: theme.palette.background.paper,
-    border: "2px solid #000",
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 2, 2),
+    position: "relative",
   },
 }));
 
 const ModalImg = styled.img`
-  width: 62%;
+  width: 100%;
   height: 100%;
-  border-radius: 10px;
-  background: #000;
-  margin-top: 9px;
-  margin-left: 10px;
+  object-fit: cover;
 `;
 
 interface AuthenticationModalProps {
@@ -138,33 +133,40 @@ export default function AuthenticationModal(props: AuthenticationModalProps) {
         BackdropComponent={Backdrop}
         BackdropProps={{
           timeout: 500,
+          className: "auth-modal-backdrop",
         }}
       >
         <Fade in={signupOpen}>
           <Stack
-            className={classes.paper}
+            className={`${classes.paper} auth-modal-paper`}
             direction={"row"}
             sx={{ width: "800px" }}
           >
-            <ModalImg src={"/img/auth.webp"} alt="camera" />
-            <Stack sx={{ marginLeft: "69px", alignItems: "center" }}>
-              <h2>Signup Form</h2>
+            <Box className="auth-modal-img-wrap" sx={{ flex: "0 0 45%", minHeight: 420 }}>
+              <ModalImg src={"/img/auth.webp"} alt="camera" className="auth-modal-img" />
+            </Box>
+            <Stack className="auth-modal-form" sx={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+              <h2 className="auth-modal-title">Signup Form</h2>
               <TextField
-                sx={{ marginTop: "7px" }}
-                id="outlined-basic"
+                fullWidth
+                sx={{ marginTop: "7px", maxWidth: 280 }}
+                id="signup-username"
                 label="username"
                 variant="outlined"
                 onChange={handleUsername}
               />
               <TextField
-                sx={{ my: "17px" }}
-                id="outlined-basic"
+                fullWidth
+                sx={{ my: "17px", maxWidth: 280 }}
+                id="signup-phone"
                 label="phone number"
                 variant="outlined"
                 onChange={handlePhone}
               />
               <TextField
-                id="outlined-basic"
+                fullWidth
+                sx={{ maxWidth: 280 }}
+                id="signup-password"
                 label="password"
                 variant="outlined"
                 onChange={handlePassword}
@@ -194,35 +196,42 @@ export default function AuthenticationModal(props: AuthenticationModalProps) {
         BackdropComponent={Backdrop}
         BackdropProps={{
           timeout: 500,
+          className: "auth-modal-backdrop",
         }}
       >
         <Fade in={loginOpen}>
           <Stack
-            className={classes.paper}
+            className={`${classes.paper} auth-modal-paper`}
             direction={"row"}
             sx={{ width: "700px" }}
           >
-            <ModalImg src={"/img/auth.webp"} alt="camera" />
+            <Box className="auth-modal-img-wrap" sx={{ flex: "0 0 45%", minHeight: 380 }}>
+              <ModalImg src={"/img/auth.webp"} alt="camera" className="auth-modal-img" />
+            </Box>
             <Stack
+              className="auth-modal-form"
               sx={{
-                marginLeft: "65px",
-                marginTop: "25px",
+                flex: 1,
                 alignItems: "center",
+                justifyContent: "center",
               }}
             >
-              <h2>Login Form</h2>
+              <h2 className="auth-modal-title">Login Form</h2>
               <TextField
-                id="outlined-basic"
+                fullWidth
+                id="login-username"
                 label="username"
                 variant="outlined"
-                sx={{ my: "10px" }}
+                sx={{ my: "10px", maxWidth: 280 }}
                 onChange={handleUsername}
               />
               <TextField
-                id={"outlined-basic"}
-                label={"password"}
-                variant={"outlined"}
-                type={"password"}
+                fullWidth
+                id="login-password"
+                label="password"
+                variant="outlined"
+                type="password"
+                sx={{ maxWidth: 280 }}
                 onChange={handlePassword}
                 onKeyDown={handlePasswordKeyDown}
               />

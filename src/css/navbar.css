@@ -2,22 +2,64 @@
     width: 100%;
     height: 773px;
     display: flex;
-    background: url("/public/img/banner.webp");
+    flex-direction: column;
+    background: url("/public/img/Screenshot\ 2026-03-08\ at\ 02.29.52.webp");
     background-size: cover;
 }
 
 .home-navbar .navbar-container {
-    margin-top: 55px;
+    margin-top: 0;
     height: 642px;
-
 }
 
-.home-navbar .navbar-container .menu {
-    height: 50px;
+/* Navbar menu bar - full width, scrolls with page (no sticky/fixed) */
+.navbar-menu-bar {
+    width: 100%;
+    position: static;
+    z-index: 100;
+    background: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.navbar-menu-bar .menu {
+    width: 100%;
+    max-width: 1300px;
+    margin: 0 auto;
+    height: 64px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    padding: 0 24px;
+}
+
+.navbar-menu-bar .menu-spacer {
+    flex: 1;
+    min-width: 120px;
+}
+
+.navbar-menu-bar .links-center {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 32px;
+    flex: 0 0 auto;
+}
+
+.navbar-menu-bar .links-right {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 24px;
+    flex: 1;
+    min-width: 120px;
+    justify-content: flex-end;
+}
+
+.navbar-menu-bar .logo-placeholder {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
 }
 
 .home-navbar .navbar-container .menu .brand-logo {
@@ -25,20 +67,12 @@
     height: 30px;
 }
 
-.home-navbar .navbar-container .menu .links {
-    max-width: 700px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 32px;
-}
-
-.home-navbar .navbar-container .menu .links .login-button {
+.navbar-menu-bar .links-right .login-button {
     background: #3776CC;
-    color: #f8f8ff;
+    color: black;
 }
 
-.home-navbar .navbar-container .menu .user-avatar {
+.navbar-menu-bar .user-avatar {
     width: 50px;
     height: 50px;
     border-radius: 24px;
@@ -55,7 +89,7 @@
 }
 
 .home-navbar .hover-line a {
-    color: #f8f8ff;
+    color: #000000;
     z-index: 100;
     white-space: nowrap;
 }
@@ -63,7 +97,7 @@
 .home-navbar .underLine {
     display: block;
     content: "";
-    border-bottom: solid 2px #d7b686;
+    border-bottom: solid 2px #343434;
 }
 
 .my_page {
@@ -73,7 +107,7 @@
 .home-navbar .hover-line:after {
     display: block;
     content: "";
-    border-bottom: solid 2px #d7b686;
+    border-bottom: solid 2px #343434;
     transform: scaleX(0);
     transition: transform 250ms ease-in-out;
 }
@@ -138,21 +172,24 @@
 }
 
 .home-navbar .navbar-container .header-frame .detail .signup {
-    margin-top: 73px;
+    position: absolute;
+  left: 4%; /* Foizni kamaytirsangiz chapga suriladi */
+  top: 37%;  /* Balandligini ham moslab oling */
 }
 
 .home-navbar .navbar-container .header-frame .detail .signup-button {
-    width: 210px;
+    width: 180px;
     height: 60px;
     border-radius: 4px;
-    background: #1976d2;
+    background: #54ea74;
     text-align: center;
     font-family: "Poppins";
     font-size: 17px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-    color: #d5d5d5;
+    color: black;
+    transition: all 0.1s ease; /* Harakat silliq bo'lishi uchun */
 }
 
 .home-navbar .navbar-container .logo-frame {
@@ -164,7 +201,7 @@
 .home-navbar .navbar-container .logo-frame .logo-img {
     width: 100%;
     height: 100%;
-    background: url("/public/img/logo.webp");
+    /* background: url("/public/img/logo.webp"); */
     background-size: contain;
     background-repeat: no-repeat;
     filter: invert(25%);
@@ -178,41 +215,20 @@
     width: 100%;
     height: 400px;
     display: flex;
-    background: url("/public/img/banner.webp");
+    background: url("/public/img/Screenshot\ 2026-03-08\ at\ 02.29.52.webp");
     background-size: cover;
 }
 
 .other-navbar .navbar-container {
-    margin-top: 55px;
+    margin-top: 0;
 }
 
-.other-navbar .navbar-container .menu {
-    height: 50px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.other-navbar .navbar-container .menu .brand-logo {
-    width: 125px;
-    height: 30px;
-}
-
-.other-navbar .navbar-container .menu .links {
-    max-width: 700px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 32px;
-}
-
-.other-navbar .navbar-container .menu .links .login-button {
+.other-navbar .navbar-menu-bar .links-right .login-button {
     background: #3776CC;
-    color: #f8f8ff;
+    color: black;
 }
 
-.other-navbar .navbar-container .menu .user-avatar {
+.other-navbar .navbar-menu-bar .user-avatar {
     width: 50px;
     height: 50px;
     border-radius: 24px;
@@ -229,7 +245,7 @@
 }
 
 .other-navbar .hover-line a {
-    color: #f8f8ff;
+    color: #000000;
     z-index: 100;
     white-space: nowrap;
 }
@@ -237,13 +253,13 @@
 .other-navbar .underLine {
     display: block;
     content: "";
-    border-bottom: solid 2px #d7b686;
+    border-bottom: solid 2px #343434;
 }
 
 .other-navbar .hover-line:after {
     display: block;
     content: "";
-    border-bottom: solid 2px #d7b686;
+    border-bottom: solid 2px #343434;
     transform: scaleX(0);
     transition: transform 250ms ease-in-out;
 }

@@ -39,16 +39,10 @@ export default function OtherNavbar(props: OtherNavbarProps) {
 
     return (
         <div className="other-navbar">
-            <Container className="navbar-container">
+            <div className="navbar-menu-bar">
                 <Stack className="menu">
-                    <Box>
-                        <NavLink to="/">
-                            <img className="brand-logo" src="/icons/burak.svg" />
-                        </NavLink>
-                    </Box>
-                    <Stack
-                        className="links"
-                    >
+                    <Box className="menu-spacer" />
+                    <Stack className="links-center">
                         <Box className={"hover-line"}>
                             <NavLink to="/">
                                 Home
@@ -59,25 +53,27 @@ export default function OtherNavbar(props: OtherNavbarProps) {
                                 Products
                             </NavLink>
                         </Box>
-                        {authMember ? (
+                        {authMember && (
                             <Box className={"hover-line"}>
                                 <NavLink to="/orders" activeClassName={"underLine"}>
                                     Orders
                                 </NavLink>
                             </Box>
-                        ) : null};
-                        {authMember ? (
+                        )}
+                        {authMember && (
                             <Box className={"hover-line"}>
                                 <NavLink to="/member-page" activeClassName={"underLine"}>
                                     My Page
                                 </NavLink>
                             </Box>
-                        ) : null};
+                        )}
                         <Box className={"hover-line"}>
                             <NavLink to="/help" activeClassName={"underLine"}>
                                 Help
                             </NavLink>
                         </Box>
+                    </Stack>
+                    <Stack className="links-right">
                         <Basket
                             cartItems={cartItems}
                             onAdd={onAdd}
@@ -105,7 +101,7 @@ export default function OtherNavbar(props: OtherNavbarProps) {
                                 aria-haspopup={"true"}
                                 onClick={handleLogoutClick}
                             />
-                        )};
+                        )}
 
                         <Menu
                             anchorEl={anchorEl}
@@ -149,8 +145,10 @@ export default function OtherNavbar(props: OtherNavbarProps) {
                                 Logout
                             </MenuItem>
                         </Menu>
+                        <Box className="logo-placeholder" />
                     </Stack>
                 </Stack>
-            </Container>
-        </div >)
+            </div>
+        </div>
+    )
 }

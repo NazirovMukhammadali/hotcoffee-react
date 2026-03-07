@@ -42,16 +42,10 @@ export default function HomeNavbar(props: HomeNavbarProps) {
 
     return (
         <div className="home-navbar">
-            <Container className="navbar-container">
+            <div className="navbar-menu-bar">
                 <Stack className="menu">
-                    <Box>
-                        <NavLink to="/">
-                            <img className="brand-logo" src="/icons/burak.svg" />
-                        </NavLink>
-                    </Box>
-                    <Stack
-                        className="links"
-                    >
+                    <Box className="menu-spacer" />
+                    <Stack className="links-center">
                         <Box className={"hover-line"}>
                             <NavLink to="/" activeClassName={"underLine"}>
                                 Home
@@ -62,25 +56,27 @@ export default function HomeNavbar(props: HomeNavbarProps) {
                                 Products
                             </NavLink>
                         </Box>
-                        {authMember ? (
+                        {authMember && (
                             <Box className={"hover-line"}>
                                 <NavLink to="/orders" activeClassName={"underLine"}>
                                     Orders
                                 </NavLink>
                             </Box>
-                        ) : null};
-                        {authMember ? (
+                        )}
+                        {authMember && (
                             <Box className={"hover-line"}>
                                 <NavLink to="/member-page" activeClassName={"underLine"}>
                                     My Page
                                 </NavLink>
                             </Box>
-                        ) : null};
+                        )}
                         <Box className={"hover-line"}>
                             <NavLink to="/help" activeClassName={"underLine"}>
                                 Help
                             </NavLink>
                         </Box>
+                    </Stack>
+                    <Stack className="links-right">
                         <Basket
                             cartItems={cartItems}
                             onAdd={onAdd}
@@ -108,7 +104,7 @@ export default function HomeNavbar(props: HomeNavbarProps) {
                                 aria-haspopup={"true"}
                                 onClick={handleLogoutClick}
                             />
-                        )};
+                        )}
 
                         <Menu
                             anchorEl={anchorEl}
@@ -152,13 +148,14 @@ export default function HomeNavbar(props: HomeNavbarProps) {
                                 Logout
                             </MenuItem>
                         </Menu>
-
+                        <Box className="logo-placeholder" />
                     </Stack>
                 </Stack>
-
+            </div>
+            <Container className="navbar-container">
                 <Stack className={"header-frame"}>
                     <Stack className={"detail"}>
-                        <Box className={"head-main-txt"}>
+                        {/* <Box className={"head-main-txt"}>
                             World's Most Delicious Cousine
                         </Box>
                         <Box className={"wel-txt"}>
@@ -166,7 +163,7 @@ export default function HomeNavbar(props: HomeNavbarProps) {
                         </Box>
                         <Box className={"service-txt"}>
                             24 hours service
-                        </Box>
+                        </Box> */}
                         <Box className={"signup"}>
                             {!authMember ? (
                                 <Button
