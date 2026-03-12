@@ -143,7 +143,7 @@ export default function AuthenticationModal(props: AuthenticationModalProps) {
             sx={{ width: "800px" }}
           >
             <Box className="auth-modal-img-wrap" sx={{ flex: "0 0 45%", minHeight: 420 }}>
-              <ModalImg src={"/img/auth.webp"} alt="camera" className="auth-modal-img" />
+              <ModalImg src={"/img/auth.jpg"} alt="camera" className="auth-modal-img" />
             </Box>
             <Stack className="auth-modal-form" sx={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
               <h2 className="auth-modal-title">Signup Form</h2>
@@ -206,7 +206,7 @@ export default function AuthenticationModal(props: AuthenticationModalProps) {
             sx={{ width: "700px" }}
           >
             <Box className="auth-modal-img-wrap" sx={{ flex: "0 0 45%", minHeight: 380 }}>
-              <ModalImg src={"/img/auth.webp"} alt="camera" className="auth-modal-img" />
+              <ModalImg src={"/img/auth.jpg"} alt="camera" className="auth-modal-img" />
             </Box>
             <Stack
               className="auth-modal-form"

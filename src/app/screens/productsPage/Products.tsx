@@ -291,19 +291,19 @@ export default function Products(props: ProducteProps) {
 
             <div className={"brand-logo"}>
                 <Container className="family-brands">
-                    <Box className="category-title">Our Family Brands</Box>
+                    <Box className="category-title">Our Coffee Selection</Box>
                     <Stack className="brand-list">
                         <Box className="review-box">
-                            <img src="/img/gurme.webp" />
+                            <img src="/img/espresso-coffe.png" />
                         </Box>
                         <Box className="review-box">
-                            <img src="/img/seafood.webp" />
+                            <img src="/img/cappuccino-coffee.png" />
                         </Box>
                         <Box className="review-box">
-                            <img src="/img/sweets.webp" />
+                            <img src="/img/latte-coffee.png" />
                         </Box>
                         <Box className="review-box">
-                            <img src="/img/doner.webp" />
+                            <img src="/img/mocha-coffee.png" />
                         </Box>
                     </Stack>
                 </Container>
@@ -315,7 +315,7 @@ export default function Products(props: ProducteProps) {
                         <Box className="title">Our address</Box>
                         <iframe
                             style={{ marginTop: "60px" }}
-                            src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d47974.52215811875!2d69.26707855177827!3d41.27823197720393!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2skr!4v1737127589590!5m2!1sen!2skr"
+                            src="https://www.google.com/maps?q=41.7545047,60.1636175&z=17&output=embed"
                             width={"1300"}
                             height={"600"}
                             referrerPolicy="no-referrer-when-downgrade"

@@ -38,9 +38,12 @@ export default function OtherNavbar(props: OtherNavbarProps) {
     const { authMember } = useGlobals();
 
     return (
-        <div className="other-navbar">
+        <div className="other-navbar" style={{ backgroundImage: `url(${process.env.PUBLIC_URL || ''}/img/main_background.jpg)` }}>
             <div className="navbar-menu-bar">
                 <Stack className="menu">
+                    <NavLink to="/" className="navbar-logo-link navbar-brand">
+                        HotCoffee
+                    </NavLink>
                     <Box className="menu-spacer" />
                     <Stack className="links-center">
                         <Box className={"hover-line"}>
@@ -84,7 +87,7 @@ export default function OtherNavbar(props: OtherNavbarProps) {
 
                         {!authMember ? (
                             <Box>
-                                <Button variant="contained"
+                                <Button variant="outlined"
                                     className="login-button"
                                     onClick={() => setLoginOpen(true)}
                                 >

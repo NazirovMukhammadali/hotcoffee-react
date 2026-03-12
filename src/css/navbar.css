@@ -1,10 +1,11 @@
 .home-navbar {
     width: 100%;
-    height: 773px;
+    height: 850px;
     display: flex;
     flex-direction: column;
-    background: url("/public/img/Screenshot\ 2026-03-08\ at\ 02.29.52.webp");
+    background-repeat: no-repeat;
     background-size: cover;
+    background-position: center top;
 }
 
 .home-navbar .navbar-container {
@@ -12,20 +13,29 @@
     height: 642px;
 }
 
-/* Navbar menu bar - full width, scrolls with page (no sticky/fixed) */
+
+/* Navbar menu bar - translucent panel with blur (MERAKI-style) */
 .navbar-menu-bar {
-    width: 100%;
-    position: static;
+    width: calc(100% - 48px);
+    max-width: 1280px;
+    margin: 16px auto 0;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 100;
-    background: #ffffff;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    background: rgba(255, 248, 240, 0.2);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
 }
 
 .navbar-menu-bar .menu {
     width: 100%;
-    max-width: 1300px;
     margin: 0 auto;
-    height: 64px;
+    height: 70px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -33,9 +43,29 @@
     padding: 0 24px;
 }
 
+.navbar-menu-bar .navbar-logo-link {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    transition: opacity 0.2s ease;
+}
+
+.navbar-menu-bar .navbar-logo-link:hover {
+    opacity: 0.9;
+}
+
+.navbar-menu-bar .navbar-brand {
+    font-family: "Poppins", "Roboto", sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: #11e8d6e2;
+    text-decoration: none;
+}
+
 .navbar-menu-bar .menu-spacer {
     flex: 1;
-    min-width: 120px;
+    min-width: 60px;
 }
 
 .navbar-menu-bar .links-center {
@@ -68,8 +98,33 @@
 }
 
 .navbar-menu-bar .links-right .login-button {
-    background: #3776CC;
-    color: black;
+    background: transparent;
+    color: #11e8d6e2;
+    border-color: #11e8d6e2;
+    font-weight: 500;
+}
+
+.navbar-menu-bar .links-right .login-button:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #11e8d6e2;
+}
+
+.navbar-menu-bar [aria-label="cart"] {
+    color: rgba(139, 90, 43, 0.9);
+}
+
+.navbar-menu-bar [aria-label="cart"] img,
+.navbar-menu-bar [aria-label="cart"] svg {
+    filter: brightness(0) invert(1);
+}
+
+.navbar-menu-bar [aria-label="cart"]:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.navbar-menu-bar [aria-label="cart"] .MuiBadge-badge {
+    background: rgba(139, 90, 43, 0.9);
+    color: #ffffff;
 }
 
 .navbar-menu-bar .user-avatar {
@@ -89,34 +144,40 @@
 }
 
 .home-navbar .hover-line a {
-    color: #000000;
+    color: #11e8d6e2;
     z-index: 100;
     white-space: nowrap;
 }
 
-.home-navbar .underLine {
-    display: block;
-    content: "";
-    border-bottom: solid 2px #343434;
+.home-navbar .hover-line a:hover {
+    color: #11e8d6e2;
+}
+
+.home-navbar .hover-line a.underLine {
+    padding: 8px 14px;
+    border-radius: 8px;
+    background: rgba(139, 90, 43, 0.6);
+    color: #11e8d6e2;
+    font-weight: 600;
 }
 
 .my_page {
     background-color: #ae0000;
 }
 
-.home-navbar .hover-line:after {
+.home-navbar .hover-line:not(.underLine):after {
     display: block;
     content: "";
-    border-bottom: solid 2px #343434;
+    border-bottom: solid 2px #11e8d6e2;
     transform: scaleX(0);
     transition: transform 250ms ease-in-out;
 }
 
-.home-navbar .hover-line:hover:after {
+.home-navbar .hover-line:not(.underLine):hover:after {
     transform: scaleX(1);
 }
 
-.home-navbar div.hover-line:after {
+.home-navbar div.hover-line:not(.underLine):after {
     transform-origin: 0% 50%;
 }
 
@@ -173,8 +234,10 @@
 
 .home-navbar .navbar-container .header-frame .detail .signup {
     position: absolute;
-  left: 4%; /* Foizni kamaytirsangiz chapga suriladi */
-  top: 37%;  /* Balandligini ham moslab oling */
+    left: 4%;
+    /* Foizni kamaytirsangiz chapga suriladi */
+    top: 37%;
+    /* Balandligini ham moslab oling */
 }
 
 .home-navbar .navbar-container .header-frame .detail .signup-button {
@@ -189,7 +252,8 @@
     font-weight: 400;
     line-height: normal;
     color: black;
-    transition: all 0.1s ease; /* Harakat silliq bo'lishi uchun */
+    transition: all 0.1s ease;
+    /* Harakat silliq bo'lishi uchun */
 }
 
 .home-navbar .navbar-container .logo-frame {
@@ -213,20 +277,18 @@
 
 .other-navbar {
     width: 100%;
-    height: 400px;
+    height: 350px;
     display: flex;
-    background: url("/public/img/Screenshot\ 2026-03-08\ at\ 02.29.52.webp");
+    background-repeat: no-repeat;
     background-size: cover;
+    background-position: center top;
+
 }
 
 .other-navbar .navbar-container {
     margin-top: 0;
 }
 
-.other-navbar .navbar-menu-bar .links-right .login-button {
-    background: #3776CC;
-    color: black;
-}
 
 .other-navbar .navbar-menu-bar .user-avatar {
     width: 50px;
@@ -245,27 +307,37 @@
 }
 
 .other-navbar .hover-line a {
-    color: #000000;
+    color: #11e8d6e2;
     z-index: 100;
     white-space: nowrap;
 }
 
-.other-navbar .underLine {
-    display: block;
-    content: "";
-    border-bottom: solid 2px #343434;
+.other-navbar .hover-line a:hover {
+    color: #11e8d6e2;
 }
 
-.other-navbar .hover-line:after {
+.other-navbar .hover-line a.underLine {
+    padding: 8px 14px;
+    border-radius: 8px;
+    background: rgba(139, 90, 43, 0.6);
+    color: #11e8d6e2;
+    font-weight: 600;
+}
+
+.other-navbar .hover-line:not(.underLine):after {
     display: block;
     content: "";
-    border-bottom: solid 2px #343434;
+    border-bottom: solid 2px #11e8d6e2;
     transform: scaleX(0);
     transition: transform 250ms ease-in-out;
 }
 
-.other-navbar .hover-line:hover:after {
+.other-navbar .hover-line:not(.underLine):hover:after {
     transform: scaleX(1);
+}
+
+.other-navbar div.hover-line:not(.underLine):after {
+    transform-origin: 0% 50%;
 }
 
 

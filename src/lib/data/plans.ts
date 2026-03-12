@@ -5,7 +5,7 @@ export const plans = [
 		author: 'Chef Deming',
 		date: '30 min ago',
 		location: 'Turkey, Istambul',
-		img: '/img/discount.webp',
+		img: '/img/discount.png',
 	},
 	{
 		title: 'Coming Soon',

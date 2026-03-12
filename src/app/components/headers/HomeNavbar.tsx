@@ -41,9 +41,12 @@ export default function HomeNavbar(props: HomeNavbarProps) {
 
 
     return (
-        <div className="home-navbar">
+        <div className="home-navbar" style={{ backgroundImage: `url(${process.env.PUBLIC_URL || ''}/img/main_background.jpg)` }}>
             <div className="navbar-menu-bar">
                 <Stack className="menu">
+                    <NavLink to="/" className="navbar-logo-link navbar-brand">
+                        HotCoffee
+                    </NavLink>
                     <Box className="menu-spacer" />
                     <Stack className="links-center">
                         <Box className={"hover-line"}>
@@ -87,7 +90,7 @@ export default function HomeNavbar(props: HomeNavbarProps) {
 
                         {!authMember ? (
                             <Box>
-                                <Button variant="contained"
+                                <Button variant="outlined"
                                     className="login-button"
                                     onClick={() => setLoginOpen(true)}
                                 >
@@ -155,15 +158,6 @@ export default function HomeNavbar(props: HomeNavbarProps) {
             <Container className="navbar-container">
                 <Stack className={"header-frame"}>
                     <Stack className={"detail"}>
-                        {/* <Box className={"head-main-txt"}>
-                            World's Most Delicious Cousine
-                        </Box>
-                        <Box className={"wel-txt"}>
-                            The Choise, not just a choice
-                        </Box>
-                        <Box className={"service-txt"}>
-                            24 hours service
-                        </Box> */}
                         <Box className={"signup"}>
                             {!authMember ? (
                                 <Button
