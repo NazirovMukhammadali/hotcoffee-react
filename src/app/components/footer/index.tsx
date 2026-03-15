@@ -7,8 +7,9 @@ const Footers = styled.div`
   width: 100%;
   height: 590px;
   display: flex;
-  background: #343434;
+  background: #3e2c23;
   background-size: cover;
+  color:#f5efe7;
 `;
 
 export default function Footer() {

@@ -6,7 +6,7 @@
 /* STATISTICS */
 .homepage .static-frame-wrapper {
     width: 100%;
-    background: #f8f8ff;
+    background: #f5efe7;
     border: 0.1px solid;
 }
 
@@ -75,7 +75,7 @@
     width: 100%;
     height: 580px;
     display: flex;
-    background: #f8f8ff;
+    background: #f5efe7;
 }
 
 .homepage .popular-dishes-frame .popular-section {
@@ -138,7 +138,7 @@
 .homepage .new-products-frame {
     width: 100%;
     height: 605px;
-    background: #f8f8ff;
+    background: #f5efe7;
     display: flex;
 
 }
@@ -258,7 +258,7 @@
     width: 100%;
     height: 550px;
     display: flex;
-    background: #f8f8ff;
+    background: #f5efe7;
 }
 
 .homepage .active-users-frame .main {
@@ -332,7 +332,7 @@
 .homepage .events-frame {
     width: 100%;
     height: 745px;
-    background: #f8f8ff;
+    background: #f5efe7;
     display: flex;
 }
 
@@ -413,7 +413,7 @@
     width: 90%;
     height: auto;
     bottom: 5px;
-    background: #f8f8ff;
+    background: #f5efe7;
     box-shadow: 0px 40px 30px rgba(25, 25, 46, 0.04);
     border-radius: 8px;
 }
@@ -506,7 +506,7 @@
     height: 8px;
     text-align: center;
     opacity: 1;
-    background: #f8f8ff;
+    background: #11e8d6e2;
     border-radius: 50%;
 }
 

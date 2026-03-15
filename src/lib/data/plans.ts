@@ -13,7 +13,7 @@ export const plans = [
 		author: 'Belissimo Arthur',
 		date: '2 days ago',
 		location: 'Turkey, Istambul',
-		img: '/img/fresh.webp',
+		img: '/img/fresh.png',
 	},
 	{
 		title: 'New Project Lunch',
@@ -21,7 +21,7 @@ export const plans = [
 		author: 'Morgan News',
 		date: '5 days ago',
 		location: 'USA, Florida',
-		img: '/img/coming.webp',
+		img: '/img/coming.png',
 	},
 	{
 		title: 'Join us on sns',
@@ -29,6 +29,6 @@ export const plans = [
 		author: 'Belissimo Agent',
 		date: 'A week ago',
 		location: 'Europe, France',
-		img: '/img/food-city.webp',
+		img: '/img/food-city.png',
 	},
 ];
