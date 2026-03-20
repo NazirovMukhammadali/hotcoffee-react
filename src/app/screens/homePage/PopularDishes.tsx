@@ -28,7 +28,7 @@ export default function PopularDishes() {
         <div className={"popular-dishes-frame"}>
             <Container>
                 <Stack className="popular-section">
-                    <Box className="category-title">Popular Dishes</Box>
+                    <Box className="category-title">Hot Picks</Box>
                     <Stack className="cards-frame">
                         {popularDishes.length !== 0 ? (
                             popularDishes.map((product: Product) => {
@@ -75,12 +75,21 @@ export default function PopularDishes() {
                                                     py: 1.5,
                                                     px: "var(--Card-padding)",
                                                     borderTop: "1px solid",
-                                                    height: "60px",
+                                                    minHeight: "60px",
                                                 }}
                                             >
                                                 <Typography
                                                     startDecorator={<DescriptionOutlinedIcon />}
                                                     textColor="neutral.300"
+                                                    sx={{
+                                                        fontSize: "14px",
+                                                        overflowWrap: "break-word",
+                                                        wordBreak: "break-word",
+                                                        display: "-webkit-box",
+                                                        WebkitLineClamp: 2,
+                                                        WebkitBoxOrient: "vertical",
+                                                        overflow: "hidden",
+                                                    }}
                                                 >
                                                     {product.productDesc}
                                                 </Typography>

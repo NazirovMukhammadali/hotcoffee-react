@@ -13,7 +13,6 @@ import { createSelector } from "reselect";
 import { Product } from "../../../lib/types/product";
 import { retrieveNewDishes } from "./selector";
 import { serverApi } from "../../../lib/config";
-import { ProductCollection } from "../../../lib/enums/product.enum";
 
 const newDishesRetriever = createSelector(retrieveNewDishes, (newDishes) => ({
     newDishes,
@@ -25,16 +24,12 @@ export default function NewDishes() {
         <div className={"new-products-frame"}>
             <Container>
                 <Stack className={"main"}>
-                    <Box className={"category-title"}>Fresh Menu</Box>
+                    <Box className={"category-title"}>New Menu</Box>
                     <Stack className={"cards-frame"}>
                         <CssVarsProvider>
                             {newDishes.length !== 0 ? (
                                 newDishes.map((product: Product) => {
                                     const imagePath = `${serverApi}/${product.productImages[0]}`;
-                                    const sizeVolume =
-                                        product.productCollection === ProductCollection.DRINK
-                                            ? product.productVolume + "l"
-                                            : product.productSize + "size";
                                     return (
                                         <Card
                                             key={product._id}
@@ -42,7 +37,6 @@ export default function NewDishes() {
                                             className={"card"}
                                         >
                                             <CardOverflow>
-                                                <div className="product-sale">{sizeVolume}</div>
                                                 <AspectRatio ratio="1">
                                                     <img src={imagePath} alt="" />
                                                 </AspectRatio>
@@ -50,7 +44,7 @@ export default function NewDishes() {
 
                                             <CardOverflow variant="soft" className="product-detail">
                                                 <Stack className="info">
-                                                    <Stack flexDirection="row">
+                                                    <Stack flexDirection="row" alignItems="center">
                                                         <Typography className="title">
                                                             {product.productName}
                                                         </Typography>
@@ -60,7 +54,7 @@ export default function NewDishes() {
                                                         </Typography>
                                                     </Stack>
 
-                                                    <Stack>
+                                                    <Stack flexDirection="row" alignItems="center">
                                                         <Typography className="views">
                                                             {product.productViews}
                                                             <VisibilityIcon

@@ -34,7 +34,7 @@ export default function HomePage() {
             page: 1,
             limit: 4,
             order: "productViews",
-            productCollection: ProductCollection.DISH,
+            productCollection: ProductCollection.COFFEE,
         }).then(data => {
             setPopularDishes(data);
         }).catch(err => { console.log("error", err) });
@@ -43,7 +43,7 @@ export default function HomePage() {
             page: 1,
             limit: 4,
             order: "createdAt",
-            productCollection: ProductCollection.DISH,
+            productCollection: ProductCollection.COFFEE,
         }).then(data => {
             setNewDishes(data)
         }).catch(err => { console.log("error", err) });
