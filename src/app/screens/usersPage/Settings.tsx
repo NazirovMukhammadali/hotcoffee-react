@@ -70,19 +70,18 @@ export function Settings() {
   };
 
   const handleImageViewer = (e: T) => {
-    const file = e.target.files[0];
-    console.log("file:", file);
-    const fileType = file.type,
-      validateImageTypes = ["image/jpg", "image/jpeg", "image/png"];
+    const file = e.target?.files?.[0];
+    if (!file) return;
+
+    const fileType = file.type;
+    const validateImageTypes = ["image/jpg", "image/jpeg", "image/png"];
 
     if (!validateImageTypes.includes(fileType)) {
       sweetErrorHandling(Messages.error5).then();
     } else {
-      if (file) {
-        memberUpdateInput.memberImage = file;
-        setMemberUpdateInput({ ...memberUpdateInput });
-        setMemberImage(URL.createObjectURL(file));
-      }
+      memberUpdateInput.memberImage = file;
+      setMemberUpdateInput({ ...memberUpdateInput });
+      setMemberImage(URL.createObjectURL(file));
     }
   };
 
@@ -94,9 +93,9 @@ export function Settings() {
           <span>Upload image</span>
           <p>JPG, JPEG, PNG formats only!</p>
           <div className={"up-del-box"}>
-            <Button component="label" onChange={handleImageViewer}>
+            <Button component="label">
               <CloudDownloadIcon />
-              <input type="file" hidden />
+              <input type="file" hidden accept="image/jpeg,image/jpg,image/png" onChange={handleImageViewer} />
             </Button>
           </div>
         </div>

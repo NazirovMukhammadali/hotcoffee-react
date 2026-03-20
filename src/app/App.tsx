@@ -22,13 +22,11 @@ function App() {
   const location = useLocation();
   const { setAuthMember } = useGlobals();
   const { cartItems, onAdd, onRemove, onDelete, onDeleteAll } = useBasket();
-  const [signupOpen, setSignupOpen] = useState<boolean>(false);
-  const [loginOpen, setLoginOpen] = useState<boolean>(false);
+  const [authOpen, setAuthOpen] = useState<boolean>(false);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
   // HANDLERS
-  const handleSignupClose = () => setSignupOpen(false);
-  const handleLoginClose = () => setLoginOpen(false);
+  const handleAuthClose = () => setAuthOpen(false);
   const handleLogoutClick = (e: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(e.currentTarget);
   };
@@ -56,8 +54,7 @@ function App() {
           onRemove={onRemove}
           onDelete={onDelete}
           onDeleteAll={onDeleteAll}
-          setSignupOpen={setSignupOpen}
-          setLoginOpen={setLoginOpen}
+          setAuthOpen={setAuthOpen}
           anchorEl={anchorEl}
           handleLogoutClick={handleLogoutClick}
           handleCloseLogout={handleCloseLogout}
@@ -69,8 +66,7 @@ function App() {
           onRemove={onRemove}
           onDelete={onDelete}
           onDeleteAll={onDeleteAll}
-          setSignupOpen={setSignupOpen}
-          setLoginOpen={setLoginOpen}
+          setAuthOpen={setAuthOpen}
           anchorEl={anchorEl}
           handleLogoutClick={handleLogoutClick}
           handleCloseLogout={handleCloseLogout}
@@ -95,12 +91,7 @@ function App() {
       </Switch>
       <Footer />
 
-      <AuthenticationModal
-        signupOpen={signupOpen}
-        loginOpen={loginOpen}
-        handleLoginClose={handleLoginClose}
-        handleSignupClose={handleSignupClose}
-      />
+      <AuthenticationModal authOpen={authOpen} onClose={handleAuthClose} />
     </>
   );
 }

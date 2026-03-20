@@ -13,8 +13,7 @@ interface HomeNavbarProps {
     onRemove: (item: CartItem) => void;
     onDelete: (item: CartItem) => void;
     onDeleteAll: () => void;
-    setSignupOpen: (isOpen: boolean) => void;
-    setLoginOpen: (isOpen: boolean) => void;
+    setAuthOpen: (isOpen: boolean) => void;
     anchorEl: HTMLElement | null;
     handleLogoutClick: (e: React.MouseEvent<HTMLElement>) => void;
     handleCloseLogout: () => void;
@@ -28,8 +27,7 @@ export default function HomeNavbar(props: HomeNavbarProps) {
         onRemove,
         onDelete,
         onDeleteAll,
-        setSignupOpen,
-        setLoginOpen,
+        setAuthOpen,
         anchorEl,
         handleLogoutClick,
         handleCloseLogout,
@@ -41,7 +39,8 @@ export default function HomeNavbar(props: HomeNavbarProps) {
 
 
     return (
-        <div className="home-navbar" style={{ backgroundImage: `url(${process.env.PUBLIC_URL || ''}/img/main_background.jpg)` }}>
+        <div className="home-navbar hero-with-overlay" style={{ backgroundImage: `url(${process.env.PUBLIC_URL || ''}/img/main_background.jpg)` }}>
+            <div className="hero-overlay" aria-hidden="true" />
             <div className="navbar-menu-bar">
                 <Stack className="menu">
                     <NavLink to="/" className="navbar-logo-link navbar-brand">
@@ -92,7 +91,7 @@ export default function HomeNavbar(props: HomeNavbarProps) {
                             <Box>
                                 <Button variant="outlined"
                                     className="login-button"
-                                    onClick={() => setLoginOpen(true)}
+                                    onClick={() => setAuthOpen(true)}
                                 >
                                     Login
                                 </Button>
@@ -158,16 +157,10 @@ export default function HomeNavbar(props: HomeNavbarProps) {
             <Container className="navbar-container">
                 <Stack className={"header-frame"}>
                     <Stack className={"detail"}>
-                        <Box className={"signup"}>
-                            {!authMember ? (
-                                <Button
-                                    variant={"contained"}
-                                    className={"signup-button"}
-                                    onClick={() => setSignupOpen(true)}
-                                >
-                                    SIGN UP
-                                </Button>
-                            ) : null}
+                        <Box className={"hero-tagline"}>
+                            <span className={"hero-tagline-intro"}>Fresh and Tasty</span>
+                            <span className={"hero-tagline-coffee"}>coffee</span>
+                            <span className={"hero-tagline-outro"}>in the morning</span>
                         </Box>
                     </Stack>
                     <Box className={"logo-frame"}>

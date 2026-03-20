@@ -11,3 +11,42 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* SweetAlert Error - above modals, auth-style */
+.swal-auth-error-container {
+  z-index: 9999 !important;
+}
+
+.swal-auth-error-popup {
+  background: rgba(30, 25, 22, 0.95) !important;
+  border: 1px solid rgba(193, 154, 107, 0.4) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+}
+
+.swal-auth-error-icon {
+  border-color: rgba(193, 154, 107, 0.6) !important;
+}
+
+.swal-auth-error-icon .swal2-icon-content {
+  color: #c19a6b !important;
+}
+
+.swal-auth-error-content {
+  color: #f5efe7 !important;
+  font-family: "Poppins", "Roboto", sans-serif !important;
+}
+
+.swal-auth-error-confirm {
+  background: transparent !important;
+  color: #c19a6b !important;
+  border: 1px solid #c19a6b !important;
+  border-radius: 10px !important;
+  font-weight: 500 !important;
+}
+
+.swal-auth-error-confirm:hover {
+  background: rgba(193, 154, 107, 0.15) !important;
+  border-color: #d4ab7a !important;
+  color: #d4ab7a !important;
+}

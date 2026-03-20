@@ -1,115 +1,138 @@
-/* Auth Modal - Modern styling */
+/* Auth Modal - Glassmorphism (Image 3 style) */
 .auth-modal-backdrop {
-  backdrop-filter: blur(8px);
-  background: rgba(0, 0, 0, 0.4) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(0, 0, 0, 0.5) !important;
 }
 
-.auth-modal-paper {
-  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%) !important;
-  border: none !important;
-  border-radius: 24px !important;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25),
-    0 0 0 1px rgba(0, 0, 0, 0.05) !important;
-  padding: 0 !important;
-  overflow: hidden;
-}
-
-.auth-modal-paper::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #d7b586, #343434);
-  opacity: 0.9;
-}
-
-.auth-modal-img-wrap {
+.auth-modal-glass {
   position: relative;
-  overflow: hidden;
-}
-
-.auth-modal-img-wrap::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(215, 181, 134, 0.15) 0%, transparent 50%);
-  pointer-events: none;
-}
-
-.auth-modal-img,
-.auth-modal-img-wrap img {
   width: 100%;
-  height: 100%;
-  border-radius: 24px 0 0 24px;
-  object-fit: cover;
-  transition: transform 0.4s ease;
+  max-width: 420px;
+  padding: 48px 40px 40px;
+  background: rgba(30, 25, 22, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 20px;
+  border: 1px solid rgba(193, 154, 107, 0.25);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
 }
 
-.auth-modal-paper:hover .auth-modal-img {
-  transform: scale(1.02);
+.auth-modal-close {
+  position: absolute !important;
+  top: 16px;
+  right: 16px;
+  color: rgba(255, 248, 240, 0.5) !important;
 }
 
-.auth-modal-form {
-  padding: 32px 48px 40px;
+.auth-modal-close:hover {
+  color: rgba(255, 248, 240, 0.9) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+.auth-modal-content {
+  width: 100%;
 }
 
 .auth-modal-title {
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-family: "Poppins", "Roboto", sans-serif;
   font-size: 28px;
   font-weight: 700;
-  color: #343434;
-  margin: 0 0 28px 0;
-  letter-spacing: -0.5px;
+  color: #f5efe7;
+  margin: 0 0 8px 0;
+  text-align: center;
 }
 
-.auth-modal-title::after {
-  content: "";
-  display: block;
-  width: 48px;
-  height: 4px;
-  background: linear-gradient(90deg, #d7b586, #343434);
-  border-radius: 2px;
-  margin-top: 12px;
-  margin-left: auto;
-  margin-right: auto;
+.auth-modal-subtitle {
+  font-family: "Poppins", "Roboto", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(245, 239, 231, 0.7);
+  margin: 0 0 24px 0;
+  text-align: center;
 }
 
-/* TextField hover & focus - enhanced */
-.auth-modal-paper .MuiOutlinedInput-root {
-  transition: all 0.25s ease;
+.auth-modal-input {
+  margin-bottom: 4px !important;
 }
 
-.auth-modal-paper .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
-  border-color: #d7b586;
-  border-width: 2px;
-}
-
-.auth-modal-paper .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
-  border-color: #d7b586;
-  border-width: 2px;
-}
-
-.auth-modal-paper .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+.auth-modal-input .MuiOutlinedInput-root {
+  background: rgba(0, 0, 0, 0.2);
   border-radius: 12px;
 }
 
-.auth-modal-paper .MuiInputLabel-root.Mui-focused {
-  color: #343434;
+.auth-modal-input .MuiOutlinedInput-root input {
+  color: #f5efe7;
 }
 
-/* Button hover */
-.auth-modal-paper .MuiFab-root {
-  transition: all 0.3s ease !important;
-  box-shadow: 0 4px 14px rgba(52, 52, 52, 0.25) !important;
+.auth-modal-input .MuiOutlinedInput-root input::placeholder {
+  color: rgba(245, 239, 231, 0.5);
 }
 
-.auth-modal-paper .MuiFab-root:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(52, 52, 52, 0.35) !important;
+.auth-modal-input .MuiOutlinedInput-root fieldset {
+  border-color: rgba(193, 154, 107, 0.3);
+  border-width: 1px;
 }
 
-.auth-modal-paper .MuiFab-root:active {
-  transform: translateY(0);
+.auth-modal-input .MuiOutlinedInput-root:hover fieldset {
+  border-color: rgba(193, 154, 107, 0.5);
+}
+
+.auth-modal-input .MuiOutlinedInput-root.Mui-focused fieldset {
+  border-color: #c19a6b;
+  border-width: 2px;
+}
+
+.auth-modal-input .MuiInputLabel-root {
+  color: rgba(245, 239, 231, 0.6);
+}
+
+.auth-modal-input .MuiInputLabel-root.Mui-focused {
+  color: #c19a6b;
+}
+
+.auth-modal-btn {
+  margin-top: 16px !important;
+  padding: 12px 24px !important;
+  font-family: "Poppins", sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  letter-spacing: 1px !important;
+  color: #c19a6b !important;
+  border-color: #c19a6b !important;
+  border-radius: 12px !important;
+  text-transform: uppercase !important;
+}
+
+.auth-modal-btn:hover {
+  background: rgba(193, 154, 107, 0.15) !important;
+  border-color: #d4ab7a !important;
+  color: #d4ab7a !important;
+}
+
+.auth-modal-footer {
+  font-family: "Poppins", "Roboto", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(245, 239, 231, 0.7);
+  margin: 20px 0 0 0;
+  text-align: center;
+}
+
+.auth-modal-link {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: #c19a6b;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.auth-modal-link:hover {
+  color: #d4ab7a;
+  text-decoration: underline;
 }

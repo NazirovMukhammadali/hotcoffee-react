@@ -3,9 +3,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
-import { Box, Fab, Stack, TextField } from "@mui/material";
-import styled from "styled-components";
-import LoginIcon from "@mui/icons-material/Login";
+import { Box, Button, IconButton, Stack, TextField } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import { T } from "../../../lib/types/common";
 import { Messages } from "../../../lib/config";
 import { LoginInput, MemberInput } from "../../../lib/types/member";
@@ -20,234 +19,177 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
   },
-  paper: {
-    position: "relative",
-  },
 }));
 
-const ModalImg = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-`;
-
 interface AuthenticationModalProps {
-  signupOpen: boolean;
-  loginOpen: boolean;
-  handleSignupClose: () => void;
-  handleLoginClose: () => void;
+  authOpen: boolean;
+  onClose: () => void;
 }
 
 export default function AuthenticationModal(props: AuthenticationModalProps) {
-  const { signupOpen, loginOpen, handleSignupClose, handleLoginClose } = props;
+  const { authOpen, onClose } = props;
   const classes = useStyles();
+  const [view, setView] = useState<"login" | "signup">("login");
   const [memberNick, setMemberNick] = useState<string>("");
   const [memberPhone, setMemberPhone] = useState<string>("");
   const [memberPassword, setMemberPassword] = useState<string>("");
   const { setAuthMember } = useGlobals();
 
-  /** HANDLERS **/
+  const handleUsername = (e: T) => setMemberNick(e.target.value);
+  const handlePhone = (e: T) => setMemberPhone(e.target.value);
+  const handlePassword = (e: T) => setMemberPassword(e.target.value);
 
-  const handleUsername = (e: T) => {
-    setMemberNick(e.target.value);
-  }
-
-  const handlePhone = (e: T) => {
-    setMemberPhone(e.target.value);
-  }
-
-  const handlePassword = (e: T) => {
-    setMemberPassword(e.target.value);
-  }
+  const handleClose = () => {
+    setView("login");
+    setMemberNick("");
+    setMemberPhone("");
+    setMemberPassword("");
+    onClose();
+  };
 
   const handlePasswordKeyDown = (e: T) => {
-    if (e.key === "Enter" && signupOpen) {
-      handleSignupRequest().then();
-    } else if (e.key === "Enter" && loginOpen) {
-      handleLoginRequest().then();
-    }
+    if (e.key === "Enter" && view === "signup") handleSignupRequest();
+    else if (e.key === "Enter" && view === "login") handleLoginRequest();
   };
 
   const handleSignupRequest = async () => {
     try {
-      const isFullFill =
-        memberNick !== "" && memberPhone !== "" && memberPassword !== "";
-      if (!isFullFill) {
-        throw new Error(Messages.error3);
-      }
+      const isFullFill = memberNick !== "" && memberPhone !== "" && memberPassword !== "";
+      if (!isFullFill) throw new Error(Messages.error3);
 
       const signupInput: MemberInput = {
-        memberNick: memberNick,
-        memberPhone: memberPhone,
-        memberPassword: memberPassword,
+        memberNick,
+        memberPhone,
+        memberPassword,
       };
-
       const member = new MemberService();
       const result = await member.signup(signupInput);
-
       setAuthMember(result);
-      handleSignupClose();
+      handleClose();
     } catch (err) {
       console.log(err);
-      handleSignupClose();
       sweetErrorHandling(err).then();
     }
   };
 
-  // handleLoginRequest
   const handleLoginRequest = async () => {
     try {
-      const isFullFill =
-        memberNick !== "" && memberPassword !== "";
-      if (!isFullFill) {
-        throw new Error(Messages.error3);
-      }
+      const isFullFill = memberNick !== "" && memberPassword !== "";
+      if (!isFullFill) throw new Error(Messages.error3);
 
-      const loginInput: LoginInput = {
-        memberNick: memberNick,
-        memberPassword: memberPassword,
-      };
-
+      const loginInput: LoginInput = { memberNick, memberPassword };
       const member = new MemberService();
       const result = await member.login(loginInput);
-
       setAuthMember(result);
       setMemberPassword("");
-      handleLoginClose();
+      handleClose();
     } catch (err) {
       console.log(err);
-      handleLoginClose();
       sweetErrorHandling(err).then();
     }
   };
 
   return (
-    <div>
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        className={classes.modal}
-        open={signupOpen}
-        onClose={handleSignupClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-          className: "auth-modal-backdrop",
-        }}
-      >
-        <Fade in={signupOpen}>
-          <Stack
-            className={`${classes.paper} auth-modal-paper`}
-            direction={"row"}
-            sx={{ width: "800px" }}
-          >
-            <Box className="auth-modal-img-wrap" sx={{ flex: "0 0 45%", minHeight: 420 }}>
-              <ModalImg src={"/img/auth.jpg"} alt="camera" className="auth-modal-img" />
-            </Box>
-            <Stack className="auth-modal-form" sx={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-              <h2 className="auth-modal-title">Signup Form</h2>
-              <TextField
-                fullWidth
-                sx={{ marginTop: "7px", maxWidth: 280 }}
-                id="signup-username"
-                label="username"
-                variant="outlined"
-                onChange={handleUsername}
-              />
-              <TextField
-                fullWidth
-                sx={{ my: "17px", maxWidth: 280 }}
-                id="signup-phone"
-                label="phone number"
-                variant="outlined"
-                onChange={handlePhone}
-              />
-              <TextField
-                fullWidth
-                sx={{ maxWidth: 280 }}
-                id="signup-password"
-                label="password"
-                variant="outlined"
-                onChange={handlePassword}
-                onKeyDown={handlePasswordKeyDown}
-              />
-              <Fab
-                sx={{ marginTop: "30px", width: "120px" }}
-                variant="extended"
-                color="primary"
-                onClick={handleSignupRequest}
-              >
-                <LoginIcon sx={{ mr: 1 }} />
-                Signup
-              </Fab>
-            </Stack>
-          </Stack>
-        </Fade>
-      </Modal>
+    <Modal
+      aria-labelledby="auth-modal-title"
+      className={classes.modal}
+      open={authOpen}
+      onClose={handleClose}
+      closeAfterTransition
+      BackdropComponent={Backdrop}
+      BackdropProps={{ timeout: 500, className: "auth-modal-backdrop" }}
+    >
+      <Fade in={authOpen}>
+        <Box className="auth-modal-glass">
+          <IconButton className="auth-modal-close" onClick={handleClose} size="small">
+            <CloseIcon fontSize="small" />
+          </IconButton>
 
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        className={classes.modal}
-        open={loginOpen}
-        onClose={handleLoginClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-          className: "auth-modal-backdrop",
-        }}
-      >
-        <Fade in={loginOpen}>
-          <Stack
-            className={`${classes.paper} auth-modal-paper`}
-            direction={"row"}
-            sx={{ width: "700px" }}
-          >
-            <Box className="auth-modal-img-wrap" sx={{ flex: "0 0 45%", minHeight: 380 }}>
-              <ModalImg src={"/img/auth.jpg"} alt="camera" className="auth-modal-img" />
-            </Box>
-            <Stack
-              className="auth-modal-form"
-              sx={{
-                flex: 1,
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <h2 className="auth-modal-title">Login Form</h2>
+          {view === "login" ? (
+            <Stack className="auth-modal-content" spacing={2}>
+              <h2 className="auth-modal-title">Welcome Back</h2>
+              <p className="auth-modal-subtitle">Sign in to continue</p>
               <TextField
                 fullWidth
-                id="login-username"
-                label="username"
-                variant="outlined"
-                sx={{ my: "10px", maxWidth: 280 }}
+                placeholder="Username"
+                value={memberNick}
                 onChange={handleUsername}
+                className="auth-modal-input"
+                variant="outlined"
               />
               <TextField
                 fullWidth
-                id="login-password"
-                label="password"
-                variant="outlined"
+                placeholder="Password"
                 type="password"
-                sx={{ maxWidth: 280 }}
+                value={memberPassword}
                 onChange={handlePassword}
                 onKeyDown={handlePasswordKeyDown}
+                className="auth-modal-input"
+                variant="outlined"
               />
-              <Fab
-                sx={{ marginTop: "27px", width: "120px" }}
-                variant={"extended"}
-                color={"primary"}
+              <Button
+                fullWidth
+                variant="outlined"
+                className="auth-modal-btn"
                 onClick={handleLoginRequest}
               >
-                <LoginIcon sx={{ mr: 1 }} />
-                Login
-              </Fab>
+                LOGIN
+              </Button>
+              <p className="auth-modal-footer">
+                Don&apos;t have an account?{" "}
+                <button type="button" className="auth-modal-link" onClick={() => setView("signup")}>
+                  SIGN UP
+                </button>
+              </p>
             </Stack>
-          </Stack>
-        </Fade>
-      </Modal>
-    </div>
+          ) : (
+            <Stack className="auth-modal-content" spacing={2}>
+              <h2 className="auth-modal-title">Create Account</h2>
+              <p className="auth-modal-subtitle">Join us for the best coffee</p>
+              <TextField
+                fullWidth
+                placeholder="Username"
+                value={memberNick}
+                onChange={handleUsername}
+                className="auth-modal-input"
+                variant="outlined"
+              />
+              <TextField
+                fullWidth
+                placeholder="Phone number"
+                value={memberPhone}
+                onChange={handlePhone}
+                className="auth-modal-input"
+                variant="outlined"
+              />
+              <TextField
+                fullWidth
+                placeholder="Password"
+                type="password"
+                value={memberPassword}
+                onChange={handlePassword}
+                onKeyDown={handlePasswordKeyDown}
+                className="auth-modal-input"
+                variant="outlined"
+              />
+              <Button
+                fullWidth
+                variant="outlined"
+                className="auth-modal-btn"
+                onClick={handleSignupRequest}
+              >
+                SIGN UP
+              </Button>
+              <p className="auth-modal-footer">
+                Already have an account?{" "}
+                <button type="button" className="auth-modal-link" onClick={() => setView("login")}>
+                  LOGIN
+                </button>
+              </p>
+            </Stack>
+          )}
+        </Box>
+      </Fade>
+    </Modal>
   );
 }

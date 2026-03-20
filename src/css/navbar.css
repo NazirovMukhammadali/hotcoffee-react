@@ -6,15 +6,36 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center top;
+    position: relative;
+}
+
+.home-navbar.hero-with-overlay .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0.55) 0%,
+        rgba(0, 0, 0, 0.3) 35%,
+        rgba(0, 0, 0, 0.1) 60%,
+        rgba(0, 0, 0, 0) 85%
+    );
+    pointer-events: none;
+    z-index: 1;
+}
+
+.home-navbar .navbar-menu-bar {
+    z-index: 10;
 }
 
 .home-navbar .navbar-container {
     margin-top: 0;
     height: 642px;
+    position: relative;
+    z-index: 2;
 }
 
 
-/* Navbar menu bar - translucent panel with blur (MERAKI-style) */
+/* Navbar menu bar - premium dark overlay for hero visibility */
 .navbar-menu-bar {
     width: calc(100% - 48px);
     max-width: 1280px;
@@ -24,12 +45,12 @@
     left: 50%;
     transform: translateX(-50%);
     z-index: 100;
-    background: rgba(255, 248, 240, 0.2);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
 }
 
 .navbar-menu-bar .menu {
@@ -110,12 +131,12 @@
 }
 
 .navbar-menu-bar [aria-label="cart"] {
-    color: rgba(139, 90, 43, 0.9);
+    color: #11e8d6;
 }
 
 .navbar-menu-bar [aria-label="cart"] img,
 .navbar-menu-bar [aria-label="cart"] svg {
-    filter: brightness(0) invert(1);
+    filter: brightness(0) saturate(100%) invert(88%) sepia(20%) saturate(500%) hue-rotate(130deg);
 }
 
 .navbar-menu-bar [aria-label="cart"]:hover {
@@ -156,7 +177,7 @@
 .home-navbar .hover-line a.underLine {
     padding: 8px 14px;
     border-radius: 8px;
-    background: rgba(139, 90, 43, 0.6);
+    background: rgba(139, 90, 43, 0.9);
     color: #11e8d6e2;
     font-weight: 600;
 }
@@ -193,6 +214,7 @@
     width: 510px;
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
 .home-navbar .navbar-container .header-frame .detail .head-main-txt {
@@ -232,28 +254,77 @@
     color: #d5d5d5;
 }
 
-.home-navbar .navbar-container .header-frame .detail .signup {
+/* Hero tagline - premium coffee brand styling */
+.home-navbar .navbar-container .header-frame .detail .hero-tagline {
     position: absolute;
-    left: 4%;
-    /* Foizni kamaytirsangiz chapga suriladi */
-    top: 37%;
-    /* Balandligini ham moslab oling */
+    left: 8%;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 90%;
 }
 
-.home-navbar .navbar-container .header-frame .detail .signup-button {
-    width: 180px;
-    height: 60px;
-    border-radius: 4px;
-    background: #54ea74;
-    text-align: center;
-    font-family: "Poppins";
-    font-size: 17px;
-    font-style: normal;
+.hero-tagline-intro {
+    font-family: "Great Vibes", "Sacramento", cursive;
+    font-size: 2rem;
     font-weight: 400;
-    line-height: normal;
-    color: black;
-    transition: all 0.1s ease;
-    /* Harakat silliq bo'lishi uchun */
+    color: #f5e6d3;
+    line-height: 1.5;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.hero-tagline-coffee {
+    font-family: "Playfair Display", "Georgia", serif;
+    font-size: 5.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.1;
+    margin: 8px 0 12px 0;
+    letter-spacing: -0.03em;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.hero-tagline-outro {
+    font-family: "Great Vibes", "Sacramento", cursive;
+    font-size: 1.85rem;
+    font-weight: 400;
+    color: rgba(245, 230, 211, 0.95);
+    line-height: 1.5;
+    letter-spacing: 1px;
+    opacity: 0.95;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Hero responsive - mobile centered */
+@media (max-width: 768px) {
+    .home-navbar .navbar-container .header-frame .detail .hero-tagline {
+        left: 50%;
+        top: 52%;
+        transform: translate(-50%, -50%);
+        align-items: center;
+        text-align: center;
+        padding: 0 20px;
+    }
+
+    .hero-tagline-intro {
+        font-size: 1.5rem;
+        margin-bottom: 2px;
+        line-height: 1.4;
+    }
+
+    .hero-tagline-coffee {
+        font-size: 3.25rem;
+        margin: 6px 0 8px 0;
+    }
+
+    .hero-tagline-outro {
+        font-size: 1.35rem;
+        line-height: 1.4;
+    }
 }
 
 .home-navbar .navbar-container .logo-frame {
@@ -319,7 +390,7 @@
 .other-navbar .hover-line a.underLine {
     padding: 8px 14px;
     border-radius: 8px;
-    background: rgba(139, 90, 43, 0.6);
+    background: rgba(139, 90, 43, 0.9);
     color: #11e8d6e2;
     font-weight: 600;
 }
