@@ -1,182 +1,182 @@
-.help-page {
-  width: 100%;
-  height: auto;
-  display: flex;
-  background: #f8f8ff;
+.help-container {
+  padding-top: 32px;
+  padding-bottom: 96px;
+  max-width: 980px !important;
 }
 
-.help-page .help-container {
-  margin-top: 50px;
-  margin-bottom: 50px;
-  flex-direction: row;
+.help-tabs {
+  border-bottom: 1px solid var(--border);
 }
 
-.help-page .help-menu {
-  width: 100%;
-  height: 60px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  border-bottom: 1px solid #f8f8ff;
+.help-tabs .MuiTab-root {
+  color: var(--muted);
+  min-height: 52px;
 }
 
-.help-page .help-menu .table-list {
-  display: flex;
-  justify-content: space-between;
+.help-tabs .Mui-selected {
+  color: var(--espresso) !important;
 }
 
-.help-page .css-1gsv261 {
-  width: 75%;
+.help-tabs .MuiTabs-indicator {
+  background: var(--caramel);
+  height: 3px;
 }
 
-.help-page .css-heg063-MuiTabs-flexContainer {
-  justify-content: space-between;
+.help-panel {
+  padding: 28px 0 0 !important;
 }
 
-.help-page .css-19kzrtu {
-  padding-top: 24px;
-}
-
-.help-page .help-main-content {
-  width: 100%;
-  height: 1000px;
-}
-
-.help-page .rules-box {
-  padding: 24px;
-  width: 100%;
-  height: auto;
+.faq-list {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: #f8f8ff;
-  border: 1px solid #ededed;
-  box-shadow: 0px 20px 30px rgba(25, 25, 46, 0.04);
-  border-radius: 8px;
+  gap: 10px;
 }
 
-.rules-box .rules-frame {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+.faq-item {
+  border: 1px solid var(--border);
+  border-radius: 14px !important;
+  background: var(--surface) !important;
+  overflow: hidden;
 }
 
-.rules-box .rules-frame p {
-  border-bottom: 1px solid #dddddd;
-  color: #000000;
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-  font-weight: 400;
-  font-size: 1rem;
-  letter-spacing: 0.00938em;
+.faq-item::before {
+  display: none;
 }
 
-.help-page .accordion-menu {
-  width: 100%;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-}
-
-.help-page .admin-letter-box {
-  padding: 60px;
-  width: 100%;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: #f8f8ff;
-  border: 1px solid #ededed;
-  box-shadow: 0px 20px 30px rgba(25, 25, 46, 0.04);
-  border-radius: 8px;
-}
-
-.help-page .admin-letter-box .admin-letter-container {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.help-page .admin-letter-container .admin-letter-frame {
-  margin-top: 30px;
-  display: flex;
-  flex-direction: column;
-}
-
-.help-page .admin-letter-frame span {
-  font-family: "ABeeZee";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 24px;
-  line-height: 28px;
-  color: #140342;
-}
-
-.help-page .admin-letter-frame p {
-  margin-top: 20px;
-  font-family: "Sedan";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 15px;
-  line-height: 26px;
-  color: #4f547b;
-}
-
-.help-page .admin-letter-container .admin-letter-frame {
-  display: flex;
-  flex-direction: column;
-}
-
-.help-page .admin-letter-frame .admin-input-box {
-  margin-top: 30px;
-  width: 100%;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-}
-
-.help-page .admin-letter-frame .admin-input-box label {
-  font-family: "Verdana";
-  font-style: normal;
-  font-weight: 700;
+.faq-item .MuiAccordionSummary-root {
+  padding: 4px 20px;
+  font-weight: 600;
   font-size: 16px;
-  line-height: 19px;
-  color: #140342;
+  color: var(--espresso);
 }
 
-.help-page .admin-letter-frame .admin-input-box input {
-  margin-top: 10px;
-  padding: 20px;
-  width: 100%;
-  height: 60px;
-  display: flex;
-  background: #f8f8ff;
-  border: 1px solid #dddddd;
-  border-radius: 8px;
-  font-family: "Verdana";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 15px;
-  line-height: 26px;
-  color: #4f547b;
+.faq-item .MuiAccordionDetails-root {
+  padding: 0 20px 18px;
+  color: var(--muted);
 }
 
-.help-page .admin-letter-frame .admin-input-box textarea {
-  margin-top: 10px;
-  padding: 20px;
-  width: 100%;
-  height: 150px;
+.faq-item.Mui-expanded {
+  border-color: var(--caramel);
+}
+
+.rules-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: rule;
   display: flex;
-  background: #f8f8ff;
-  border: 1px solid #dddddd;
-  border-radius: 8px;
-  font-family: "Verdana";
-  font-style: normal;
-  font-weight: 400;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.rules-list li {
+  counter-increment: rule;
+  position: relative;
+  padding: 18px 20px 18px 64px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  color: var(--espresso-2);
+}
+
+.rules-list li::before {
+  content: counter(rule);
+  position: absolute;
+  left: 18px;
+  top: 16px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--caramel-soft);
+  color: var(--caramel-dark);
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.contact-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.contact-form {
+  padding: 28px;
+}
+
+.contact-form h2 {
+  font-size: 26px;
+}
+
+.contact-form > p {
+  margin: 6px 0 22px;
+  color: var(--muted);
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 16px;
+}
+
+.contact-info {
+  padding: 24px;
+  background: var(--espresso) !important;
+  border-color: var(--espresso) !important;
+  color: rgba(239, 228, 214, 0.85);
+}
+
+.contact-info h3 {
+  color: #fff;
+  font-size: 20px;
+  margin-bottom: 16px;
+}
+
+.contact-info ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
   font-size: 15px;
-  line-height: 26px;
-  color: #4f547b;
+}
+
+.contact-info li {
+  display: flex;
+  gap: 10px;
+}
+
+.contact-info svg {
+  color: var(--caramel);
+  flex-shrink: 0;
+}
+
+.contact-info a:hover {
+  color: var(--caramel);
+}
+
+.contact-info .block {
+  display: block;
+}
+
+@media (max-width: 760px) {
+  .contact-layout,
+  .contact-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .contact-form {
+    padding: 22px 16px;
+  }
+
+  .contact-form .btn {
+    width: 100%;
+  }
+
+  .rules-list li {
+    padding: 16px 16px 16px 58px;
+  }
 }

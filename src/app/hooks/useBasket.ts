@@ -15,7 +15,7 @@ const useBasket = () => {
         if (exist) {
             const cartUpdate = cartItems.map((item: CartItem) =>
                 item._id === input._id
-                    ? { ...exist, quantity: exist.quantity + 1 }
+                    ? { ...exist, quantity: exist.quantity + (input.quantity || 1) }
                     : item
             );
 

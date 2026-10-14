@@ -1,59 +1,43 @@
-import { Box, Container, Stack } from "@mui/material";
-import Card from "@mui/joy/Card";
-import { CardOverflow, CssVarsProvider, Typography } from "@mui/joy";
-import Divider from "../../components/divider";
-import AspectRatio from "@mui/joy/AspectRatio";
-
+import React from "react";
+import { Container } from "@mui/material";
+import EmojiEventsOutlinedIcon from "@mui/icons-material/EmojiEventsOutlined";
 import { useSelector } from "react-redux";
 import { createSelector } from "reselect";
 import { retrieveTopUsers } from "./selector";
-import { serverApi } from "../../../lib/config";
 import { Member } from "../../../lib/types/member";
+import { imageUrl } from "../../../lib/format";
 
-
-const topUsersRetriever = createSelector(
-    retrieveTopUsers,
-    (topUsers) => ({
-        topUsers,
-    })
-);
+const topUsersRetriever = createSelector(retrieveTopUsers, (topUsers) => ({ topUsers }));
 
 export default function ActiveUsers() {
-    const { topUsers } = useSelector(topUsersRetriever);
-    return (
-        <div className={"active-users-frame"}>
-            <Container>
-                <Stack className="main">
-                    <Box className="category-title">Active Users</Box>
+  const { topUsers } = useSelector(topUsersRetriever);
+  if (topUsers.length === 0) return null;
 
-                    <CssVarsProvider>
-                        <Stack className="cards-frame">
-                            {topUsers.length !== 0 ? (
-                                topUsers.map((member: Member) => {
-                                    const imagePath = `${serverApi}/${member.memberImage}`;
-                                    return (
-                                        <Card variant="outlined" className="card" key={member._id}>
-                                            <CardOverflow>
-                                                <AspectRatio ratio="1">
-                                                    <img src={imagePath} alt={member.memberNick} />
-                                                </AspectRatio>
-                                            </CardOverflow>
-                                            <CardOverflow variant="soft" className="member-nickname">
-                                                <Typography>{member.memberNick}</Typography>
-                                            </CardOverflow>
-                                            <Stack>
-                                                <Divider />
-                                            </Stack>
-                                        </Card>
-                                    );
-                                })
-                            ) : (
-                                <Box className="no-data">Active Users!</Box>
-                            )}
-                        </Stack>
-                    </CssVarsProvider>
-                </Stack>
-            </Container>
+  return (
+    <section className="section regulars-section">
+      <Container>
+        <div className="section-head">
+          <div>
+            <span className="eyebrow">Loyalty club</span>
+            <h2 className="section-title">Our regulars</h2>
+            <p className="section-sub">Guests with the most loyalty points. Every paid order earns you one.</p>
+          </div>
         </div>
-    );
+        <div className="regulars-grid">
+          {topUsers.map((member: Member, index: number) => (
+            <div className="regular" key={member._id}>
+              <div className="regular-avatar">
+                <img src={imageUrl(member.memberImage)} alt={member.memberNick} loading="lazy" />
+                <span className="regular-rank">#{index + 1}</span>
+              </div>
+              <strong>{member.memberNick}</strong>
+              <span className="regular-points">
+                <EmojiEventsOutlinedIcon fontSize="small" /> {member.memberPoint} points
+              </span>
+            </div>
+          ))}
+        </div>
+      </Container>
+    </section>
+  );
 }

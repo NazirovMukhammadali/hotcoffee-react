@@ -1,3 +1,9 @@
 {
-  "name": "HotCoffee"
+  "short_name": "HotCoffee",
+  "name": "HotCoffee — Specialty coffee",
+  "icons": [{ "src": "icons/favicon.svg", "type": "image/svg+xml", "sizes": "any" }],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#2b1e16",
+  "background_color": "#f6f1ea"
 }

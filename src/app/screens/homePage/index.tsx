@@ -1,10 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import Hero from "./Hero";
 import Statistics from "./Statistics";
 import PopularDishes from "./PopularDishes";
+import Categories from "./Categories";
 import NewDishes from "./NewDishes";
 import Advertisement from "./Advertisement";
 import ActiveUsers from "./ActiveUsers";
 import Events from "./Events";
+import VisitUs from "./VisitUs";
 import { useDispatch } from "react-redux";
 import { Dispatch } from "@reduxjs/toolkit";
 import { setNewDishes, setPopularDishes, setTopUsers } from "./slice";
@@ -13,6 +16,7 @@ import ProductService from "../../services/ProductService";
 import { ProductCollection } from "../../../lib/enums/product.enum";
 import MemberService from "../../services/MemberService";
 import { Member } from "../../../lib/types/member";
+import { CartItem } from "../../../lib/types/search";
 import "../../../css/home.css";
 
 
@@ -23,8 +27,14 @@ const actionDispatch = (dispatch: Dispatch) => ({
     setTopUsers: (data: Member[]) => dispatch(setTopUsers(data)),
 });
 
-export default function HomePage() {
+interface HomePageProps {
+    onAdd: (item: CartItem) => void;
+    setAuthOpen: (isOpen: boolean) => void;
+}
+
+export default function HomePage(props: HomePageProps) {
     const { setPopularDishes, setNewDishes, setTopUsers } = actionDispatch(useDispatch());
+    const [menuCount, setMenuCount] = useState<number>(0);
 
     useEffect(() => {
         // Backend server  data fetch => data
@@ -48,21 +58,28 @@ export default function HomePage() {
             setNewDishes(data)
         }).catch(err => { console.log("error", err) });
 
+        product.getProducts({ page: 1, limit: 100, order: "createdAt" })
+            .then((data) => setMenuCount(data.length))
+            .catch((err) => console.log(err));
+
         const member = new MemberService();
         member.getTopUsers().then((data) => {
             setTopUsers(data);
         }).catch((err) => console.log(err))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
 
     return (
         <div className="homepage">
-            <Statistics />
-            <PopularDishes />
-            <NewDishes />
+            <Hero setAuthOpen={props.setAuthOpen} />
+            <Statistics menuCount={menuCount} />
+            <PopularDishes onAdd={props.onAdd} />
+            <Categories />
+            <NewDishes onAdd={props.onAdd} />
             <Advertisement />
             <ActiveUsers />
             <Events />
+            <VisitUs />
         </div>
     );
 }

@@ -1,41 +1,54 @@
 import React from "react";
-import { Box, Container, Stack } from "@mui/material";
-import Divider from "../../components/divider";
+import { Container } from "@mui/material";
+import LocalCafeOutlinedIcon from "@mui/icons-material/LocalCafeOutlined";
+import SpaOutlinedIcon from "@mui/icons-material/SpaOutlined";
+import BakeryDiningOutlinedIcon from "@mui/icons-material/BakeryDiningOutlined";
+import DeliveryDiningOutlinedIcon from "@mui/icons-material/DeliveryDiningOutlined";
 
-export default function Statistics() {
-    return (
-        <div className="static-frame-wrapper">
-            <Box className="static-frame-welcome">Welcome to our coffee house</Box>
-            <Box className="static-frame-welcome_title">From a cultural standpoint, coffeehouses 
-                largely serve as centers of social interaction: the coffeehouse provides patrons with</Box>
-                <Box className="static-frame-welcome_title">a place to congregate, talk, read, write, entertain one another, or pass the time,</Box>
-                <Box className="static-frame-welcome_title">whether individually or in small groups.</Box>
-            <div className="static-frame">
-            <Container>
-                <Stack className="info">
-                    <Stack className="static-box">
-                        <Box className="static-num">12</Box>
-                        <Box className="static-text">Restaurants</Box>
-                    </Stack>
-                    <Divider height="64" width="2" bg="#E3C08D" />
-                    <Stack className="static-box">
-                        <Box className="static-num">8</Box>
-                        <Box className="static-text">Experience</Box>
-                    </Stack>
-                    <Divider height="64" width="2" bg="#E3C08D" />
-                    <Stack className="static-box">
-                        <Box className="static-num">50+</Box>
-                        <Box className="static-text">Menu</Box>
-                    </Stack>
-                    <Divider height="64" width="2" bg="#E3C08D" />
-                    <Stack className="static-box">
-                        <Box className="static-num">200+</Box>
-                        <Box className="static-text">Clients</Box>
-                    </Stack>
+interface StatisticsProps {
+  menuCount: number;
+}
 
-                </Stack>
-            </Container>
+/** "Nega HotCoffee" — faqat haqiqiy ma'lumotlar (menyu soni API'dan) */
+export default function Statistics(props: StatisticsProps) {
+  const items = [
+    {
+      icon: <LocalCafeOutlinedIcon />,
+      title: props.menuCount ? `${props.menuCount} items on the menu` : "A full coffee menu",
+      text: "Espresso classics, iced drinks, smoothies, desserts and snacks.",
+    },
+    {
+      icon: <SpaOutlinedIcon />,
+      title: "Roasted every week",
+      text: "Small-batch beans, so every cup tastes fresh and balanced.",
+    },
+    {
+      icon: <BakeryDiningOutlinedIcon />,
+      title: "Baked this morning",
+      text: "Croissants, cookies and cinnamon rolls straight from our oven.",
+    },
+    {
+      icon: <DeliveryDiningOutlinedIcon />,
+      title: "Free delivery from $100",
+      text: "Otherwise just $5 anywhere in the city.",
+    },
+  ];
+
+  return (
+    <section className="features">
+      <Container>
+        <div className="features-grid">
+          {items.map((item) => (
+            <div className="feature" key={item.title}>
+              <span className="feature-icon">{item.icon}</span>
+              <div>
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+              </div>
+            </div>
+          ))}
         </div>
-        </div>
-    );
+      </Container>
+    </section>
+  );
 }

@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import HomePage from './screens/homePage';
 import ProductsPage from './screens/productsPage';
 import OrdersPage from './screens/ordersPage';
 import UsersPage from './screens/usersPage';
-import HomeNavbar from './components/headers/HomeNavbar';
-import OtherNavbar from './components/headers/OtherNavbar';
+import Navbar from './components/headers/Navbar';
 import Footer from './components/footer';
 import HelpPage from './screens/helpPage';
 import useBasket from './hooks/useBasket';
 import AuthenticationModal from './components/auth';
 import { Messages } from '../lib/config';
-import { sweetErrorHandling, sweetTopSuccessAlert } from '../lib/sweetAlert';
+import { sweetErrorHandling, sweetTopSmallSuccessAlert } from '../lib/sweetAlert';
 import MemberService from './services/MemberService';
 import { useGlobals } from './hooks/useGlobals';
+import { CartItem } from '../lib/types/search';
 import "../css/navbar.css";
 import "../css/footer.css";
 
@@ -24,6 +24,11 @@ function App() {
   const { cartItems, onAdd, onRemove, onDelete, onDeleteAll } = useBasket();
   const [authOpen, setAuthOpen] = useState<boolean>(false);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+
+  // sahifa almashganda tepaga
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, [location.pathname]);
 
   // HANDLERS
   const handleAuthClose = () => setAuthOpen(false);
@@ -37,59 +42,53 @@ function App() {
     try {
       const member = new MemberService();
       await member.logout();
-      await sweetTopSuccessAlert("See you soon!", 700);
       setAuthMember(null);
       history.push("/");
+      sweetTopSmallSuccessAlert("Signed out. See you soon!", 1500);
     } catch (err) {
       console.log(err);
       sweetErrorHandling(Messages.error1);
     }
   };
 
+  const addToBasket = (item: CartItem) => {
+    onAdd(item);
+    sweetTopSmallSuccessAlert(`${item.name} added to basket`, 1200);
+  };
+
   return (
     <>
-      {location.pathname === "/" ?
-        <HomeNavbar
-          cartItems={cartItems}
-          onAdd={onAdd}
-          onRemove={onRemove}
-          onDelete={onDelete}
-          onDeleteAll={onDeleteAll}
-          setAuthOpen={setAuthOpen}
-          anchorEl={anchorEl}
-          handleLogoutClick={handleLogoutClick}
-          handleCloseLogout={handleCloseLogout}
-          handleLogoutRequest={handleLogoutRequest}
-        /> :
-        <OtherNavbar
-          cartItems={cartItems}
-          onAdd={onAdd}
-          onRemove={onRemove}
-          onDelete={onDelete}
-          onDeleteAll={onDeleteAll}
-          setAuthOpen={setAuthOpen}
-          anchorEl={anchorEl}
-          handleLogoutClick={handleLogoutClick}
-          handleCloseLogout={handleCloseLogout}
-          handleLogoutRequest={handleLogoutRequest}
-        />}
-      <Switch>
-        <Route path="/products">
-          <ProductsPage onAdd={onAdd} />
-        </Route>
-        <Route path="/orders">
-          <OrdersPage />
-        </Route>
-        <Route path="/member-page">
-          <UsersPage />
-        </Route>
-        <Route path="/help">
-          <HelpPage />
-        </Route>
-        <Route path="/">
-          <HomePage />
-        </Route>
-      </Switch>
+      <Navbar
+        cartItems={cartItems}
+        onAdd={onAdd}
+        onRemove={onRemove}
+        onDelete={onDelete}
+        onDeleteAll={onDeleteAll}
+        setAuthOpen={setAuthOpen}
+        anchorEl={anchorEl}
+        handleLogoutClick={handleLogoutClick}
+        handleCloseLogout={handleCloseLogout}
+        handleLogoutRequest={handleLogoutRequest}
+      />
+      <main>
+        <Switch>
+          <Route path="/products">
+            <ProductsPage onAdd={addToBasket} />
+          </Route>
+          <Route path="/orders">
+            <OrdersPage />
+          </Route>
+          <Route path="/member-page">
+            <UsersPage />
+          </Route>
+          <Route path="/help">
+            <HelpPage />
+          </Route>
+          <Route path="/">
+            <HomePage onAdd={addToBasket} setAuthOpen={setAuthOpen} />
+          </Route>
+        </Switch>
+      </main>
       <Footer />
 
       <AuthenticationModal authOpen={authOpen} onClose={handleAuthClose} />
@@ -98,4 +97,3 @@ function App() {
 }
 
 export default App;
-

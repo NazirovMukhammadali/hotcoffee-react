@@ -1,6 +1,10 @@
 export const terms = [
-	'Making orders from the site is complete, live register to use communications you must pass.',
-	'This is why you cannot cancel your orders once you have paid for them check before making payments.',
-	'It is not possible to write and distribute personal ads without the permission of the admin.',
-	'All your actions are under the control of our restaurant administration, so please follow the general rules.',
+	'You need a HotCoffee account to place orders. Please keep your login details private.',
+	'Prices on the menu include taxes. Delivery costs $5 and is free for orders of $100 or more.',
+	'Orders can be cancelled while they are awaiting payment. Paid orders are prepared immediately and cannot be cancelled.',
+	'Products are made fresh in limited quantities; if an item runs out, it will be shown as unavailable.',
+	'Loyalty points are personal, have no cash value and cannot be transferred to another account.',
+	'Please let our team know about allergies before ordering — our kitchen handles milk, nuts, gluten and eggs.',
+	'Accounts that misuse the service (fake orders, abusive messages) may be blocked by the coffee shop.',
+	'We may update these terms; the current version is always available on this page.',
 ];

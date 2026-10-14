@@ -1,45 +1,69 @@
 import { createTheme } from '@mui/material/styles';
-import { common } from '@mui/material/colors';
 import shadow from './shadow';
 import typography from './typography';
-import { maxWidth } from '@mui/system';
 
-/**
- * LIGHT THEME (DEFAULT)
- */
+/** "Espresso & Cream" — admin panel bilan bir xil brend ranglari */
+export const brand = {
+	bg: '#f6f1ea',
+	surface: '#ffffff',
+	espresso: '#2b1e16',
+	espresso2: '#3a2a20',
+	caramel: '#c08552',
+	caramelDark: '#a46b3c',
+	cream: '#efe4d6',
+	text: '#2b1e16',
+	muted: '#7a6a5d',
+	border: '#e8ded2',
+};
+
 const light = {
 	palette: {
-		type: 'light',
+		mode: 'light' as const,
 		background: {
-			default: '#f8f8ff',
-			paper: common.white,
+			default: brand.bg,
+			paper: brand.surface,
 		},
 		primary: {
-			contrastText: '#d7b586',
-			main: '#343434',
+			main: brand.caramel,
+			dark: brand.caramelDark,
+			contrastText: '#ffffff',
 		},
 		secondary: {
-			contrastText: '#343434',
-			main: '#d7b586',
+			main: brand.espresso,
+			contrastText: '#ffffff',
 		},
 		text: {
-			primary: '#343434',
-			secondary: '#d7b586',
-			dark: common.black,
+			primary: brand.text,
+			secondary: brand.muted,
 		},
+		divider: brand.border,
 	},
+	shape: { borderRadius: 12 },
 	components: {
-		MuiContainer: {
+		MuiCssBaseline: {
+			styleOverrides: {
+				body: { background: brand.bg },
+			},
+		},
+		MuiButton: {
+			defaultProps: { disableElevation: true },
 			styleOverrides: {
 				root: {
-					height: '100%',
+					textTransform: 'none' as const,
+					fontWeight: 600,
+					borderRadius: 10,
+					padding: '10px 20px',
 				},
 			},
 		},
-		MuiCssBaseline: {
+		MuiTab: {
 			styleOverrides: {
-				html: { height: '100%' },
-				body: { background: '#f4f6f8', height: '100%', minHeight: '100%' },
+				root: { textTransform: 'none' as const, fontWeight: 600, fontSize: 15 },
+			},
+		},
+		MuiPaper: {
+			styleOverrides: {
+				rounded: { borderRadius: 16 },
 			},
 		},
 	},
@@ -47,7 +71,6 @@ const light = {
 	typography,
 };
 
-// A custom theme for this app
 let theme = createTheme(light);
 theme = createTheme(theme, {
 	components: {
@@ -55,7 +78,7 @@ theme = createTheme(theme, {
 			styleOverrides: {
 				maxWidthLg: {
 					[theme.breakpoints.up('lg')]: {
-						maxWidth: '1300px',
+						maxWidth: '1240px',
 					},
 				},
 			},

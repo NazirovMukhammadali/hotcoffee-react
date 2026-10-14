@@ -1,88 +1,81 @@
 import React from "react";
-import { Box, Container, Stack } from "@mui/material";
+import { Container } from "@mui/material";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import TelegramIcon from "@mui/icons-material/Telegram";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import YouTubeIcon from "@mui/icons-material/YouTube";
+import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
+import PhoneOutlinedIcon from "@mui/icons-material/PhoneOutlined";
+import MailOutlineRoundedIcon from "@mui/icons-material/MailOutlineRounded";
 import { useGlobals } from "../../hooks/useGlobals";
+import BrandMark from "../common/BrandMark";
+import { SITE } from "../../../lib/data/site";
 
-const Footers = styled.div`
-  width: 100%;
-  height: 590px;
-  display: flex;
-  background: #3e2c23;
-  background-size: cover;
-  color:#f5efe7;
-`;
+const socialIcons: Record<string, JSX.Element> = {
+  Instagram: <InstagramIcon />,
+  Telegram: <TelegramIcon />,
+  Facebook: <FacebookIcon />,
+  YouTube: <YouTubeIcon />,
+};
 
 export default function Footer() {
   const { authMember } = useGlobals();
 
   return (
-    <Footers>
+    <footer className="footer">
       <Container>
-        <Stack flexDirection={"row"} sx={{ mt: "94px" }}>
-          <Stack flexDirection={"column"} style={{ width: "340px" }}>
-            <Box>
-              {/* <img width={"100px"} src={"/icons/burak.svg"} /> */}
-            </Box>
-            <Box className={"foot-desc-txt"}>
-            </Box>
-            <Box className="sns-context">
-              <img src={"/icons/facebook.svg"} />
-              <img src={"/icons/twitter.svg"} />
-              <img src={"/icons/instagram.svg"} />
-              <img src={"/icons/youtube.svg"} />
-            </Box>
-          </Stack>
-          <Stack sx={{ ml: "288px" }} flexDirection={"row"}>
-            <Stack>
-              <Box>
-                <Box className={"foot-category-title"}>Bo'limlar</Box>
-                <Box className={"foot-category-link"}>
-                  <Link to="/">Home</Link>
-                  <Link to="/products">Products</Link>
-                  {authMember && <Link to="/orders">Orders</Link>}
-                  <Link to="/help">Help</Link>
-                </Box>
-              </Box>
-            </Stack>
-            <Stack sx={{ ml: "100px" }}>
-              <Box>
-                <Box className={"foot-category-title"}>Find us</Box>
-                <Box
-                  flexDirection={"column"}
-                  sx={{ mt: "20px" }}
-                  className={"foot-category-link"}
-                  justifyContent={"space-between"}
-                >
-                  <Box flexDirection={"row"} className={"find-us"}>
-                    <span>L.</span>
-                    <div>Downtown, Dubai</div>
-                  </Box>
-                  <Box className={"find-us"}>
-                    <span>P.</span>
-                    <div>+971 4 554 7777</div>
-                  </Box>
-                  <Box className={"find-us"}>
-                    <span>E.</span>
-                    <div>devexuz@gmail.com</div>
-                  </Box>
-                  <Box className={"find-us"}>
-                    <span>H.</span>
-                    <div>Visit 24 hours</div>
-                  </Box>
-                </Box>
-              </Box>
-            </Stack>
-          </Stack>
-        </Stack>
-        <Stack
-          style={{ border: "1px solid #C5C8C9", width: "100%", opacity: "0.2" }}
-          sx={{ mt: "80px" }}
-        ></Stack>
-        <Stack className={"copyright-txt"}>
-          © Copyright Devex Global, All rights reserved.
-        </Stack>
+        <div className="footer-grid">
+          <div className="footer-brand">
+            <Link to="/" className="navbar-brand">
+              <BrandMark size={38} />
+              <span>HotCoffee</span>
+            </Link>
+            <p>{SITE.tagline} Fresh pastries, handmade desserts and smoothies — every day in the heart of Tashkent.</p>
+            <div className="footer-socials">
+              {SITE.socials.map((social) => (
+                <a key={social.name} href={social.href} target="_blank" rel="noreferrer" aria-label={social.name}>
+                  {socialIcons[social.name]}
+                </a>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <h4>Explore</h4>
+            <ul>
+              <li><Link to="/">Home</Link></li>
+              <li><Link to="/products">Menu</Link></li>
+              {authMember && <li><Link to="/orders">My orders</Link></li>}
+              {authMember && <li><Link to="/member-page">My page</Link></li>}
+              <li><Link to="/help">Help &amp; FAQ</Link></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4>Visit us</h4>
+            <ul className="footer-contact">
+              <li><PlaceOutlinedIcon /><a href={SITE.mapLink} target="_blank" rel="noreferrer">{SITE.address}</a></li>
+              <li><PhoneOutlinedIcon /><a href={SITE.phoneHref}>{SITE.phone}</a></li>
+              <li><MailOutlineRoundedIcon /><a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4>Opening hours</h4>
+            <ul className="footer-hours">
+              {SITE.hours.map((row) => (
+                <li key={row.days}><span>{row.days}</span><span>{row.time}</span></li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div className="footer-bottom">
+          <span>© {new Date().getFullYear()} HotCoffee. All rights reserved.</span>
+          <span>Photos: Unsplash</span>
+        </div>
       </Container>
-    </Footers>
+    </footer>
   );
 }

@@ -40,9 +40,10 @@ export const sweetTopSmallSuccessAlert = async (
   msg: string,
   duration: number = 2000
 ) => {
+  // pastda: navbar'dagi savat va profil tugmalarini yopib qo'ymasligi uchun
   const Toast = Swal.mixin({
     toast: true,
-    position: "top-end",
+    position: "bottom-start",
     showConfirmButton: false,
     timer: duration,
     timerProgressBar: true,
@@ -69,4 +70,24 @@ export const sweetFailureProvider = (
       window.location.replace(forward_url);
     }
   });
+};
+
+/** Brend uslubidagi tasdiqlash oynasi (window.confirm o'rniga) */
+export const sweetConfirm = async (
+  title: string,
+  text: string,
+  confirmText: string = "Yes",
+  cancelText: string = "Not now"
+): Promise<boolean> => {
+  const result = await Swal.fire({
+    icon: "question",
+    title,
+    text,
+    showCancelButton: true,
+    confirmButtonText: confirmText,
+    cancelButtonText: cancelText,
+    reverseButtons: true,
+    focusCancel: true,
+  });
+  return result.isConfirmed;
 };

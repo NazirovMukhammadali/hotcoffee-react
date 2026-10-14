@@ -1,17 +1,17 @@
-import React from "react";
-import { Box, Button, Stack } from "@mui/material";
-import IconButton from "@mui/material/IconButton";
-import Badge from "@mui/material/Badge";
-import Menu from "@mui/material/Menu";
-import CancelIcon from "@mui/icons-material/Cancel";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import React, { useState } from "react";
+import { Badge, Drawer, IconButton } from "@mui/material";
+import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import RemoveRoundedIcon from "@mui/icons-material/RemoveRounded";
+import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
 import { useHistory } from "react-router-dom";
 import { CartItem } from "../../../lib/types/search";
-import { Messages, serverApi } from "../../../lib/config";
 import { useGlobals } from "../../hooks/useGlobals";
 import OrderService from "../../services/OrderService";
-import { sweetErrorHandling } from "../../../lib/sweetAlert";
+import { sweetErrorHandling, sweetTopSmallSuccessAlert } from "../../../lib/sweetAlert";
+import { imageUrl, money } from "../../../lib/format";
+import { SITE } from "../../../lib/data/site";
 
 interface BasketProps {
   cartItems: CartItem[];
@@ -19,170 +19,138 @@ interface BasketProps {
   onRemove: (item: CartItem) => void;
   onDelete: (item: CartItem) => void;
   onDeleteAll: () => void;
+  setAuthOpen: (isOpen: boolean) => void;
 }
 
 export default function Basket(props: BasketProps) {
-  const {
-    cartItems,
-    onAdd,
-    onRemove,
-    onDelete,
-    onDeleteAll, } = props;
+  const { cartItems, onAdd, onRemove, onDelete, onDeleteAll, setAuthOpen } = props;
   const { authMember, setOrderBuilder } = useGlobals();
   const history = useHistory();
-  const itemsPrice: number = cartItems.reduce(
-    (a: number, c: CartItem) =>
-      a + c.quantity * c.price,
-    0
-  );
-  const shippingCost: number = itemsPrice < 100 ? 5 : 0;
-  const totalPrice = (itemsPrice + shippingCost).toFixed(2);
+  const [open, setOpen] = useState<boolean>(false);
+  const [submitting, setSubmitting] = useState<boolean>(false);
+
+  // backend bilan bir xil qoida: $100 dan kam bo'lsa yetkazib berish $5
+  const itemsPrice: number = cartItems.reduce((a: number, c: CartItem) => a + c.quantity * c.price, 0);
+  const shippingCost: number = itemsPrice < SITE.freeDeliveryFrom ? SITE.deliveryFee : 0;
+  const totalPrice = itemsPrice + shippingCost;
   const itemsCount = cartItems.reduce((a: number, c: CartItem) => a + c.quantity, 0);
-
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-
-  /** HANDLERS **/
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(e.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const freeDeliveryLeft = Math.max(0, SITE.freeDeliveryFrom - itemsPrice);
 
   const proceedOrderHandler = async () => {
+    if (!authMember) {
+      setOpen(false);
+      setAuthOpen(true);
+      return;
+    }
     try {
-      handleClose();
-      if (!authMember) throw new Error(Messages.error2);
-
+      setSubmitting(true);
       const order = new OrderService();
       await order.createOrder(cartItems);
 
       onDeleteAll();
+      setOpen(false);
       setOrderBuilder(new Date());
       history.push("/orders");
+      sweetTopSmallSuccessAlert("Order placed! Complete the payment to start brewing.", 2500);
     } catch (err) {
       console.log(err);
       sweetErrorHandling(err).then();
+    } finally {
+      setSubmitting(false);
     }
   };
 
   return (
-    <Box className={"hover-line"}>
-      <IconButton
-        aria-label="cart"
-        id="basic-button"
-        aria-controls={open ? "basic-menu" : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? "true" : undefined}
-        onClick={handleClick}
-      >
-        <Badge badgeContent={itemsCount} color="secondary">
-          <ShoppingCartIcon/>
+    <>
+      <IconButton className="navbar-icon" aria-label={`Basket, ${itemsCount} items`} onClick={() => setOpen(true)}>
+        <Badge badgeContent={itemsCount} color="primary" max={99}>
+          <ShoppingBagOutlinedIcon />
         </Badge>
       </IconButton>
-      <Menu
-        anchorEl={anchorEl}
-        id="account-menu"
-        open={open}
-        onClose={handleClose}
-        PaperProps={{
-          elevation: 0,
-          sx: {
-            overflow: "visible",
-            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-            mt: 1.5,
-            "& .MuiAvatar-root": {
-              width: 32,
-              height: 32,
-              ml: -0.5,
-              mr: 1,
-            },
-            "&:before": {
-              content: '""',
-              display: "block",
-              position: "absolute",
-              top: 0,
-              right: 14,
-              width: 10,
-              height: 10,
-              bgcolor: "background.paper",
-              transform: "translateY(-50%) rotate(45deg)",
-              zIndex: 0,
-            },
-          },
-        }}
-        transformOrigin={{ horizontal: "right", vertical: "top" }}
-        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-      >
-        <Stack className={"basket-frame"}>
-          <Box className={"all-check-box"}>
-            {cartItems.length === 0 ? (
-              <div>Cart is empty!</div>
-            ) : (
-              <Stack
-                flexDirection={"row"}
-                justifyContent={"space-between"}
-                alignItems={"center"}
-                sx={{ width: "100%" }}
-                px={3}
-              >
-                <div>Cart Products</div>
-                <DeleteForeverIcon
-                  onClick={() => onDeleteAll()}
-                  sx={{ cursor: "pointer" }}
-                />
-              </Stack>
-            )}
-          </Box>
 
-          <Box className={"orders-main-wrapper"}>
-            <Box className={"orders-wrapper"}>
-              {cartItems.map((item: CartItem) => {
-                const imagePath = `${serverApi}/${item.image}`;
-                return (
-                  <Box className={"basket-info-box"} key={item._id}>
-                    <div className={"cancel-btn"}>
-                      <CancelIcon
-                        color={"primary"}
-                        onClick={() => onDelete(item)}
-                      />
+      <Drawer anchor="right" open={open} onClose={() => setOpen(false)} PaperProps={{ className: "basket-drawer" }}>
+        <header className="basket-head">
+          <div>
+            <h2>Your basket</h2>
+            <span>{itemsCount === 0 ? "No items yet" : `${itemsCount} item${itemsCount === 1 ? "" : "s"}`}</span>
+          </div>
+          <IconButton aria-label="Close basket" onClick={() => setOpen(false)}>
+            <CloseRoundedIcon />
+          </IconButton>
+        </header>
+
+        {cartItems.length === 0 ? (
+          <div className="basket-empty">
+            <ShoppingBagOutlinedIcon />
+            <h3>Your basket is empty</h3>
+            <p>Pick your favourite coffee or a fresh pastry to get started.</p>
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={() => {
+                setOpen(false);
+                history.push("/products");
+              }}
+            >
+              Browse the menu
+            </button>
+          </div>
+        ) : (
+          <>
+            <div className="basket-list">
+              {cartItems.map((item: CartItem) => (
+                <div className="basket-item" key={item._id}>
+                  <img src={imageUrl(item.image, "/icons/noimage-list.svg")} alt="" />
+                  <div className="basket-item-info">
+                    <strong>{item.name}</strong>
+                    <span>{money(item.price)}</span>
+                    <div className="qty">
+                      <button type="button" aria-label="Decrease" onClick={() => onRemove(item)}>
+                        <RemoveRoundedIcon />
+                      </button>
+                      <span>{item.quantity}</span>
+                      <button type="button" aria-label="Increase" onClick={() => onAdd({ ...item, quantity: 1 })}>
+                        <AddRoundedIcon />
+                      </button>
                     </div>
-                    <img src={imagePath} className={"product-img"} />
-                    <span className={"product-name"}>{item.name}</span>
-                    <p className={"product-price"}>${item.price} x {item.quantity}</p>
-                    <Box sx={{ minWidth: 120 }}>
-                      <div className="col-2">
-                        <button onClick={() => onRemove(item)} className="remove">-</button>{" "}
-                        <button onClick={() => onAdd(item)} className="add">+</button>
-                      </div>
-                    </Box>
-                  </Box>
-                )
-              })}
+                  </div>
+                  <div className="basket-item-side">
+                    <strong>{money(item.price * item.quantity)}</strong>
+                    <IconButton size="small" aria-label={`Remove ${item.name}`} onClick={() => onDelete(item)}>
+                      <DeleteOutlineRoundedIcon fontSize="small" />
+                    </IconButton>
+                  </div>
+                </div>
+              ))}
+              <button type="button" className="basket-clear" onClick={onDeleteAll}>
+                Clear basket
+              </button>
+            </div>
 
-            </Box>
-          </Box>
-
-          {cartItems.length !== 0 ? (
-            <Box className={"basket-order"}>
-              <span className={"price"}>
-                Total: ${totalPrice} ({itemsPrice} + {shippingCost})
-              </span>
-              <Button
-                onClick={proceedOrderHandler}
-                startIcon={<ShoppingCartIcon />}
-                variant={"contained"}
-              >
-                Order
-              </Button>
-            </Box>
-          ) : (
-            ""
-          )}
-
-        </Stack>
-      </Menu>
-    </Box>
+            <footer className="basket-summary">
+              <div className="delivery-progress">
+                {freeDeliveryLeft > 0 ? (
+                  <span>
+                    Add <strong>{money(freeDeliveryLeft)}</strong> more for free delivery
+                  </span>
+                ) : (
+                  <span><strong>Free delivery</strong> unlocked</span>
+                )}
+                <div className="bar">
+                  <div style={{ width: `${Math.min(100, (itemsPrice / SITE.freeDeliveryFrom) * 100)}%` }} />
+                </div>
+              </div>
+              <div className="row"><span>Subtotal</span><span>{money(itemsPrice)}</span></div>
+              <div className="row"><span>Delivery</span><span>{shippingCost ? money(shippingCost) : "Free"}</span></div>
+              <div className="row total"><span>Total</span><span>{money(totalPrice)}</span></div>
+              <button type="button" className="btn btn-primary basket-cta" disabled={submitting} onClick={proceedOrderHandler}>
+                {authMember ? (submitting ? "Placing order…" : "Place order") : "Sign in to order"}
+              </button>
+              <p className="basket-note">Final price is confirmed by the shop when the order is placed.</p>
+            </footer>
+          </>
+        )}
+      </Drawer>
+    </>
   );
 }

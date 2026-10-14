@@ -1,79 +1,39 @@
 import React from "react";
-import { Box, Container, Stack } from "@mui/material";
-import AspectRatio from "@mui/joy/AspectRatio";
-import { CssVarsProvider } from "@mui/joy/styles";
-import CardOverflow from "@mui/joy/CardOverflow";
-import Card from "@mui/joy/Card";
-import Typography from "@mui/joy/Typography";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import Divider from "../../components/divider";
-
-import { useDispatch, useSelector } from "react-redux";
+import { Container } from "@mui/material";
+import { useSelector } from "react-redux";
 import { createSelector } from "reselect";
 import { Product } from "../../../lib/types/product";
+import { CartItem } from "../../../lib/types/search";
 import { retrieveNewDishes } from "./selector";
-import { serverApi } from "../../../lib/config";
+import ProductCard from "../../components/common/ProductCard";
 
-const newDishesRetriever = createSelector(retrieveNewDishes, (newDishes) => ({
-    newDishes,
-}));
+const newDishesRetriever = createSelector(retrieveNewDishes, (newDishes) => ({ newDishes }));
 
-export default function NewDishes() {
-    const { newDishes } = useSelector(newDishesRetriever);
-    return (
-        <div className={"new-products-frame"}>
-            <Container>
-                <Stack className={"main"}>
-                    <Box className={"category-title"}>New Menu</Box>
-                    <Stack className={"cards-frame"}>
-                        <CssVarsProvider>
-                            {newDishes.length !== 0 ? (
-                                newDishes.map((product: Product) => {
-                                    const imagePath = `${serverApi}/${product.productImages[0]}`;
-                                    return (
-                                        <Card
-                                            key={product._id}
-                                            variant="outlined"
-                                            className={"card"}
-                                        >
-                                            <CardOverflow>
-                                                <AspectRatio ratio="1">
-                                                    <img src={imagePath} alt="" />
-                                                </AspectRatio>
-                                            </CardOverflow>
-
-                                            <CardOverflow variant="soft" className="product-detail">
-                                                <Stack className="info">
-                                                    <Stack flexDirection="row" alignItems="center">
-                                                        <Typography className="title">
-                                                            {product.productName}
-                                                        </Typography>
-                                                        <Divider width="2" height="24" bg="#d9d9d9" />
-                                                        <Typography className="price">
-                                                            ${product.productPrice}
-                                                        </Typography>
-                                                    </Stack>
-
-                                                    <Stack flexDirection="row" alignItems="center">
-                                                        <Typography className="views">
-                                                            {product.productViews}
-                                                            <VisibilityIcon
-                                                                sx={{ fontSize: 20, marginLeft: "5px" }}
-                                                            />
-                                                        </Typography>
-                                                    </Stack>
-                                                </Stack>
-                                            </CardOverflow>
-                                        </Card>
-                                    );
-                                })
-                            ) : (
-                                <Box className="no-data">New products are not aviable</Box>
-                            )}
-                        </CssVarsProvider>
-                    </Stack>
-                </Stack>
-            </Container>
+export default function NewDishes(props: { onAdd: (item: CartItem) => void }) {
+  const { newDishes } = useSelector(newDishesRetriever);
+  return (
+    <section className="section">
+      <Container>
+        <div className="section-head">
+          <div>
+            <span className="eyebrow">Just landed</span>
+            <h2 className="section-title">New on the menu</h2>
+            <p className="section-sub">Recently added drinks from our baristas.</p>
+          </div>
         </div>
-    );
+        <div className="product-grid">
+          {newDishes.length !== 0 ? (
+            newDishes.map((product: Product) => (
+              <ProductCard key={product._id} product={product} onAdd={props.onAdd} showCategory={false} />
+            ))
+          ) : (
+            <div className="empty">
+              <h3>New drinks are on their way</h3>
+              <p>Our baristas are working on something special.</p>
+            </div>
+          )}
+        </div>
+      </Container>
+    </section>
+  );
 }

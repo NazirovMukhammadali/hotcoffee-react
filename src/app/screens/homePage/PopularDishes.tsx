@@ -1,109 +1,45 @@
 import React from "react";
-import { Box, Container, Stack } from "@mui/material";
-import Card from "@mui/joy/Card";
-import CardCover from "@mui/joy/CardCover";
-import CardContent from "@mui/joy/CardContent";
-import Typography from "@mui/joy/Typography";
-import { CssVarsProvider } from "@mui/joy/styles";
-import CardOverflow from "@mui/joy/CardOverflow";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
-
-
+import { Container } from "@mui/material";
+import { Link } from "react-router-dom";
+import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
 import { useSelector } from "react-redux";
 import { createSelector } from "reselect";
 import { retrievePopularDishes } from "./selector";
 import { Product } from "../../../lib/types/product";
-import { serverApi } from "../../../lib/config";
+import { CartItem } from "../../../lib/types/search";
+import ProductCard from "../../components/common/ProductCard";
 
 /** REDUX SLICE & SELECTOR */
-const popularDishesRetriever = createSelector(
-    retrievePopularDishes,
-    (popularDishes) => ({ popularDishes })
-);
+const popularDishesRetriever = createSelector(retrievePopularDishes, (popularDishes) => ({ popularDishes }));
 
-export default function PopularDishes() {
-    const { popularDishes } = useSelector(popularDishesRetriever);
-    return (
-        <div className={"popular-dishes-frame"}>
-            <Container>
-                <Stack className="popular-section">
-                    <Box className="category-title">Hot Picks</Box>
-                    <Stack className="cards-frame">
-                        {popularDishes.length !== 0 ? (
-                            popularDishes.map((product: Product) => {
-                                const imagePath = `${serverApi}/${product.productImages[0]}`
-                                return (
-                                    <CssVarsProvider key={product._id}>
-                                        <Card className={"card"}>
-                                            <CardCover>
-                                                <img src={imagePath} alt="" />
-                                            </CardCover>
-                                            <CardCover className={"card-cover"} />
-                                            <CardContent sx={{ justifyContent: "flex-end" }}>
-                                                <Stack
-                                                    flexDirection={"row"}
-                                                    justifyContent={"space-between"}
-                                                >
-                                                    <Typography
-                                                        level="h2"
-                                                        fontSize="lg"
-                                                        textColor="#fff"
-                                                        mb={1}
-                                                    >
-                                                        {product.productName}
-                                                    </Typography>
-                                                    <Typography
-                                                        sx={{
-                                                            fontWeight: "md",
-                                                            color: "neutral.300",
-                                                            alignItems: "center",
-                                                            display: "flex",
-                                                        }}
-                                                    >
-                                                        {product.productViews}
-                                                        <VisibilityIcon
-                                                            sx={{ fontsize: "25", marginLeft: "5px" }}
-                                                        />
-                                                    </Typography>
-                                                </Stack>
-                                            </CardContent>
-                                            <CardOverflow
-                                                sx={{
-                                                    display: "flex",
-                                                    gap: 1.5,
-                                                    py: 1.5,
-                                                    px: "var(--Card-padding)",
-                                                    borderTop: "1px solid",
-                                                    minHeight: "60px",
-                                                }}
-                                            >
-                                                <Typography
-                                                    startDecorator={<DescriptionOutlinedIcon />}
-                                                    textColor="neutral.300"
-                                                    sx={{
-                                                        fontSize: "14px",
-                                                        overflowWrap: "break-word",
-                                                        wordBreak: "break-word",
-                                                        display: "-webkit-box",
-                                                        WebkitLineClamp: 2,
-                                                        WebkitBoxOrient: "vertical",
-                                                        overflow: "hidden",
-                                                    }}
-                                                >
-                                                    {product.productDesc}
-                                                </Typography>
-                                            </CardOverflow>
-                                        </Card>
-                                    </CssVarsProvider>
-                                );
-                            })
-                        ) : (
-                            <Box className="no-data">New products are not available!</Box>
-                        )}
-                    </Stack>
-                </Stack>
-            </Container>
+export default function PopularDishes(props: { onAdd: (item: CartItem) => void }) {
+  const { popularDishes } = useSelector(popularDishesRetriever);
+  return (
+    <section className="section">
+      <Container>
+        <div className="section-head">
+          <div>
+            <span className="eyebrow">Most loved</span>
+            <h2 className="section-title">Hot picks this week</h2>
+            <p className="section-sub">The coffees our guests come back for again and again.</p>
+          </div>
+          <Link to="/products" className="link-arrow">
+            Full menu <ArrowForwardRoundedIcon fontSize="small" />
+          </Link>
         </div>
-    );
+        <div className="product-grid">
+          {popularDishes.length !== 0 ? (
+            popularDishes.map((product: Product) => (
+              <ProductCard key={product._id} product={product} onAdd={props.onAdd} showCategory={false} />
+            ))
+          ) : (
+            <div className="empty">
+              <h3>Fresh picks are brewing</h3>
+              <p>Check back in a moment.</p>
+            </div>
+          )}
+        </div>
+      </Container>
+    </section>
+  );
 }
