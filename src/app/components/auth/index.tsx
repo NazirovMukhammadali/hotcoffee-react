@@ -1,9 +1,5 @@
 import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Modal from "@material-ui/core/Modal";
-import Backdrop from "@material-ui/core/Backdrop";
-import Fade from "@material-ui/core/Fade";
-import { Box, Button, IconButton, Stack, TextField } from "@mui/material";
+import { Backdrop, Box, Button, Fade, IconButton, Modal, Stack, TextField } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { T } from "../../../lib/types/common";
 import { Messages } from "../../../lib/config";
@@ -13,14 +9,6 @@ import { sweetErrorHandling } from "../../../lib/sweetAlert";
 import { useGlobals } from "../../hooks/useGlobals";
 import "../../../css/auth.css";
 
-const useStyles = makeStyles((theme) => ({
-  modal: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-}));
-
 interface AuthenticationModalProps {
   authOpen: boolean;
   onClose: () => void;
@@ -28,7 +16,6 @@ interface AuthenticationModalProps {
 
 export default function AuthenticationModal(props: AuthenticationModalProps) {
   const { authOpen, onClose } = props;
-  const classes = useStyles();
   const [view, setView] = useState<"login" | "signup">("login");
   const [memberNick, setMemberNick] = useState<string>("");
   const [memberPhone, setMemberPhone] = useState<string>("");
@@ -92,12 +79,12 @@ export default function AuthenticationModal(props: AuthenticationModalProps) {
   return (
     <Modal
       aria-labelledby="auth-modal-title"
-      className={classes.modal}
+      sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
       open={authOpen}
       onClose={handleClose}
       closeAfterTransition
-      BackdropComponent={Backdrop}
-      BackdropProps={{ timeout: 500, className: "auth-modal-backdrop" }}
+      slots={{ backdrop: Backdrop }}
+      slotProps={{ backdrop: { timeout: 500, className: "auth-modal-backdrop" } }}
     >
       <Fade in={authOpen}>
         <Box className="auth-modal-glass">

@@ -46,7 +46,6 @@ class ProductService {
             if (input.search) url += `&search=${encodeURIComponent(input.search)}`;
 
             const result = await axios.get(url);
-            console.log("getProducts:", result);
 
             return result.data.map((product: Product) =>
                 this.normalizeProduct(product)

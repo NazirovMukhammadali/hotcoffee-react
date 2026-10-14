@@ -13,7 +13,6 @@ class MemberService {
     try {
       const url = this.path + "/member/top-users";
       const result = await axios.get(url)
-      console.log("getTopUsers", result)
       return result.data;
     } catch (err) {
       console.log("Error , getTopUsers:", err)
@@ -25,7 +24,6 @@ class MemberService {
     try {
       const url = this.path + "/member/restaurant";
       const result = await axios.get(url);
-      console.log("getRestaurant", result);
 
       const restaurant: Member = result.data;
       return restaurant;
@@ -63,7 +61,6 @@ class MemberService {
       const result = await axios.post(url, input, { withCredentials: true });
 
       const member = result.data.member;
-      console.log("member: ", member);
       localStorage.setItem("memberData", JSON.stringify(member));
       return member;
     } catch (err) {
@@ -75,8 +72,7 @@ class MemberService {
   public async logout(): Promise<void> {
     try {
       const url = this.path + "/member/logout";
-      const result = await axios.post(url, {}, { withCredentials: true });
-      console.log("logout result :", result);
+      await axios.post(url, {}, { withCredentials: true });
       localStorage.removeItem("memberData");
     } catch (err) {
       console.log("Error: in logout: ", err);
@@ -102,7 +98,6 @@ class MemberService {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log("updateMember:", result);
 
       const member: Member = result.data;
       localStorage.setItem("memberData", JSON.stringify(member));

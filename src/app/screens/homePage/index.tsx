@@ -54,7 +54,6 @@ export default function HomePage() {
         }).catch((err) => console.log(err))
     }, []);
 
-    console.log("popularDishes:", setPopularDishes)
 
     return (
         <div className="homepage">
