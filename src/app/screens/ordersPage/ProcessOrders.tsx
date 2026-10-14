@@ -32,28 +32,28 @@ export default function ProcessOrders(props: ProcessOrdersProps) {
 
     //HANDLERS
     const finishOrderHandler = async (e: T) => {
-        if (!authMember) {
-            throw new Error(Messages.error2);
-        }
-
-        const orderId = e.target.value;
-        const input: OrderUpdateInput = {
-            orderId: orderId,
-            orderStatus: OrderStatus.FINISH,
-        };
-
-        const confirmation = window.confirm(
-            "Have you recieved your order"
-        );
-
-        if (confirmation) {
-            const order = new OrderService();
-            await order.updateOrder(input);
-
-            setValue("3");
-            setOrderBuilder(new Date());
-        }
         try {
+            if (!authMember) {
+                throw new Error(Messages.error2);
+            }
+
+            const orderId = e.target.value;
+            const input: OrderUpdateInput = {
+                orderId: orderId,
+                orderStatus: OrderStatus.FINISH,
+            };
+
+            const confirmation = window.confirm(
+                "Have you received your order?"
+            );
+
+            if (confirmation) {
+                const order = new OrderService();
+                await order.updateOrder(input);
+
+                setValue("3");
+                setOrderBuilder(new Date());
+            }
         } catch (err) {
             console.log(err);
             sweetErrorHandling(err).then();
@@ -71,6 +71,7 @@ export default function ProcessOrders(props: ProcessOrdersProps) {
                                     const product: Product = order.productData.filter(
                                         (ele: Product) => item.productId === ele._id
                                     )[0];
+                                    if (!product) return null;
                                     const imagePath = `${serverApi}/${product.productImages[0]}`;
                                     return (
                                         <Box key={item._id} className="orders-name-price">
@@ -82,7 +83,7 @@ export default function ProcessOrders(props: ProcessOrdersProps) {
                                             <Box className="price-box">
                                                 <p>${item.itemPrice}</p>
                                                 <img src="/icons/close.svg" />
-                                                <p>${item.itemQuantity}</p>
+                                                <p>{item.itemQuantity}</p>
                                                 <img src="/icons/pause.svg" />
                                                 <p style={{ marginLeft: "15px" }}>
                                                     ${item.itemQuantity * item.itemPrice}
@@ -105,7 +106,7 @@ export default function ProcessOrders(props: ProcessOrdersProps) {
                                     <p>${order.orderTotal}</p>
                                 </Box>
                                 <p className="data-compl">
-                                    {moment().format("YY-MM-DD HH:mm")}
+                                    {moment(order.updatedAt).format("YY-MM-DD HH:mm")}
                                 </p>
                                 <Button
                                     value={order._id}

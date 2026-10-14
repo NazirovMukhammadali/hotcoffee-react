@@ -190,9 +190,7 @@ export default function Products(props: ProducteProps) {
                         </Stack>
                         <Stack className="product-wrapper">
                             {(() => {
-                                const filtered = productSearch.productCollection
-                                    ? products.filter((p: Product) => p.productCollection === productSearch.productCollection)
-                                    : products;
+                                const filtered = products;
                                 if (filtered.length === 0) {
                                     return (
                                         <Box className="no-data">

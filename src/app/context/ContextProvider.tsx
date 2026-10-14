@@ -1,7 +1,8 @@
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import Cookies from "universal-cookie";
 import { Member } from "../../lib/types/member";
 import { GlobalContext } from "../hooks/useGlobals";
+import MemberService from "../services/MemberService";
 
 
 const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -16,7 +17,20 @@ const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
   const [orderBuilder, setOrderBuilder] = useState<Date>(new Date());
 
-  console.log("=== verify ===");
+  // localStorage'dagi nusxa eskirgan bo'lishi mumkin: serverdan yangilaymiz
+  useEffect(() => {
+    if (!authMember) return;
+    new MemberService()
+      .getMemberDetail()
+      .then((member) => setAuthMember(member))
+      .catch((err) => {
+        if (err?.response?.status === 401 || err?.response?.status === 404) {
+          localStorage.removeItem("memberData");
+          setAuthMember(null);
+        }
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [orderBuilder]);
 
   return (<GlobalContext.Provider value={{
     authMember,

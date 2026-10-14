@@ -51,12 +51,7 @@ export function Settings() {
   const handleSubmitHandle = async () => {
     try {
       if (!authMember) throw new Error(Messages.error2);
-      if (
-        memberUpdateInput.memberNick === "" ||
-        memberUpdateInput.memberPhone === "" ||
-        memberUpdateInput.memberAddress === "" ||
-        memberUpdateInput.memberDesc === ""
-      ) {
+      if (!memberUpdateInput.memberNick || !memberUpdateInput.memberPhone) {
         throw new Error(Messages.error3);
       }
       const member = new MemberService();
@@ -120,7 +115,7 @@ export function Settings() {
             className={"spec-input mb-phone"}
             type="text"
             placeholder={
-              authMember?.memberPhone ? authMember.memberAddress : "no phone"
+              authMember?.memberPhone ? authMember.memberPhone : "no phone"
             }
             value={memberUpdateInput.memberPhone}
             name="memberPhone"

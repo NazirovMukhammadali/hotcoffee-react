@@ -97,6 +97,7 @@ export default function PausedOrders(props: PausedOrdersProps) {
                                     const product: Product = order.productData.filter(
                                         (ele: Product) => item.productId === ele._id
                                     )[0];
+                                    if (!product) return null;
                                     const imagePath = `${serverApi}/${product.productImages[0]}`;
                                     return (
                                         <Box key={item._id} className="orders-name-price">
@@ -105,7 +106,7 @@ export default function PausedOrders(props: PausedOrdersProps) {
                                             <Box className="price-box">
                                                 <p>${item.itemPrice}</p>
                                                 <img src="/icons/close.svg" />
-                                                <p>${item.itemQuantity}</p>
+                                                <p>{item.itemQuantity}</p>
                                                 <img src="/icons/pause.svg" />
                                                 <p style={{ marginLeft: "15px" }}>
                                                     ${item.itemQuantity * item.itemPrice}

@@ -1,6 +1,5 @@
 import axios from "axios"
 import { serverApi } from "../../lib/config";
-import { Product, ProductInquiry } from "../../lib/types/product";
 import { LoginInput, Member, MemberInput, MemberUpdateInput } from "../../lib/types/member";
 
 class MemberService {
@@ -34,6 +33,15 @@ class MemberService {
       console.log("Error, getRestaurant:", err);
       throw err;
     }
+  }
+
+  /** Profilni serverdan yangilaydi (ballar, rasm, status) */
+  public async getMemberDetail(): Promise<Member> {
+    const url = this.path + "/member/detail";
+    const result = await axios.get(url, { withCredentials: true });
+    const member: Member = result.data;
+    localStorage.setItem("memberData", JSON.stringify(member));
+    return member;
   }
 
   public async signup(input: MemberInput): Promise<Member> {
@@ -82,7 +90,9 @@ class MemberService {
       formData.append("memberPhone", input.memberPhone || "");
       formData.append("memberAddress", input.memberAddress || "");
       formData.append("memberDesc", input.memberDesc || "");
-      formData.append("memberImage", input.memberImage || "");
+      // rasm faqat yangi fayl tanlanganda yuboriladi, aks holda eski rasm saqlanadi
+      if ((input.memberImage as any) instanceof File)
+        formData.append("memberImage", input.memberImage as any);
 
       const result = await axios(`${serverApi}/member/update`, {
         method: "POST",

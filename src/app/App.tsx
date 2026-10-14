@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Route, Switch, useLocation } from 'react-router-dom';
+import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import HomePage from './screens/homePage';
 import ProductsPage from './screens/productsPage';
 import OrdersPage from './screens/ordersPage';
@@ -20,6 +20,7 @@ import "../css/footer.css";
 
 function App() {
   const location = useLocation();
+  const history = useHistory();
   const { setAuthMember } = useGlobals();
   const { cartItems, onAdd, onRemove, onDelete, onDeleteAll } = useBasket();
   const [authOpen, setAuthOpen] = useState<boolean>(false);
@@ -37,8 +38,9 @@ function App() {
     try {
       const member = new MemberService();
       await member.logout();
-      await sweetTopSuccessAlert("success", 700);
+      await sweetTopSuccessAlert("See you soon!", 700);
       setAuthMember(null);
+      history.push("/");
     } catch (err) {
       console.log(err);
       sweetErrorHandling(Messages.error1);

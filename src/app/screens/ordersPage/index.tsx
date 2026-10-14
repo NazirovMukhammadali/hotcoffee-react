@@ -13,7 +13,7 @@ import { Order, OrderInquery } from "../../../lib/types/order";
 import { OrderStatus } from "../../../lib/enums/order.enum";
 import OrderService from "../../services/OrderService";
 import { useGlobals } from "../../hooks/useGlobals";
-import { useHistory } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { serverApi } from "../../../lib/config";
 import "../../../css/order.css";
 
@@ -29,7 +29,6 @@ export default function OrdersPage() {
     const { setPausedOrders, setProcessOrders, setFinishedOrder } =
         actionDispatch(useDispatch());
     const { orderBuilder, authMember } = useGlobals();
-    const history = useHistory();
     const [value, setValue] = useState("1");
     const [orderInquery, setOrderInquiry] = useState<OrderInquery>({
         page: 1,
@@ -38,6 +37,7 @@ export default function OrdersPage() {
     });
 
     useEffect(() => {
+        if (!authMember) return;
         const order = new OrderService();
 
         order.getMyOrders({ ...orderInquery, orderStatus: OrderStatus.PAUSE })
@@ -58,7 +58,7 @@ export default function OrdersPage() {
         setValue(newValue);
     };
 
-    if (!authMember) history.push("/");
+    if (!authMember) return <Redirect to="/" />;
 
     return (
         <div className={"order-page"}>

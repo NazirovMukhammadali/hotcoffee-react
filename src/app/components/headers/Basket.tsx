@@ -36,7 +36,8 @@ export default function Basket(props: BasketProps) {
     0
   );
   const shippingCost: number = itemsPrice < 100 ? 5 : 0;
-  const totalPrice = (itemsPrice + shippingCost).toFixed(1);
+  const totalPrice = (itemsPrice + shippingCost).toFixed(2);
+  const itemsCount = cartItems.reduce((a: number, c: CartItem) => a + c.quantity, 0);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -76,7 +77,7 @@ export default function Basket(props: BasketProps) {
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
       >
-        <Badge badgeContent={cartItems.length} color="secondary">
+        <Badge badgeContent={itemsCount} color="secondary">
           <ShoppingCartIcon/>
         </Badge>
       </IconButton>

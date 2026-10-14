@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Container, Stack } from "@mui/material";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { useGlobals } from "../../hooks/useGlobals";
 
 const Footers = styled.div`
   width: 100%;
@@ -13,7 +14,7 @@ const Footers = styled.div`
 `;
 
 export default function Footer() {
-  const authMember = null;
+  const { authMember } = useGlobals();
 
   return (
     <Footers>
